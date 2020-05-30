@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         //this was to test if git is pushed
 
-        //FUCK YOU AGAIN
+        //FUCK YOU AGAIN AGAIN BLAH BLAH BLAH
     }
 
 }
