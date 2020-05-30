@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
 
+    //here 
     //thus is fas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
