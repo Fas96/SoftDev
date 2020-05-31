@@ -1,25 +1,38 @@
 package com.fas.smash_k.ui.dashboard;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.fas.smash_k.R;
 import com.mapbox.android.core.location.LocationEngine;
+import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
+import com.mapbox.android.core.location.LocationEngineRequest;
+import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraUpdate;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.LocationComponentOptions;
@@ -35,19 +48,25 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 
 
 import java.util.List;
+import java.util.PriorityQueue;
 
-public class DashboardFragment extends Fragment implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
+import static android.os.Looper.getMainLooper;
+
+public class DashboardFragment extends Fragment implements OnMapReadyCallback, OnLocationClickListener, LocationEngine, PermissionsListener, OnCameraTrackingChangedListener {
 
     private DashboardViewModel dashboardViewModel;
     private MapView dMapView;
-    private  View mview;
-    private MapboxMap dmap;
+    private View mview;
+    private MapboxMap map;
     private PermissionsManager permissionsManager;
-    private  LocationEngine locationEngine;
+    private LocationEngine locationEngine;
     private LocationLayerPlugin locationLayerPlugin;
     private Location originLocation;
 
-    private PermissionsManager dpermissionsManager;
+    //location engine
+    private long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
+    private long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
+
     private MapView mapView;
     private MapboxMap mapboxMap;
     private LocationComponent locationComponent;
@@ -113,78 +132,10 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
         mview = inflater.inflate(R.layout.fragment_dashboard, container, false);
         //  final TextView textView = root.findViewById(R.id.text_dashboard);
 
-
         dMapView = mview.findViewById(R.id.mapView);
         dMapView.onCreate(savedInstanceState);
-//        dMapView.getMapAsync(new OnMapReadyCallback() {
-//            @Override
-//            public void onMapReady(@NonNull MapboxMap mapboxMap) {
-//               // mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/fas96/ckav94e4b2gz71is1rbxpcgff/edit/#12/48.8665/2.3176"));
-//                mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/fas96/ckav94e4b2gz71is1rbxpcgff"));
-//            }
-//        });
 
         dMapView.getMapAsync(this);
-
-//        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
-//        return mview;
-//    }
-//
-//    @Override
-//    public void onPermissionResult(boolean granted) {
-//        if(granted){
-//            enableLocation();
-//        }
-//    }
-//
-//    private void initializeLocationEngine(){
-//        locationEngine= LocationEngineProvider.getBestLocationEngine(getActivity());
-//
-//        locationEngine.notifyAll();
-//
-//
-//
-//    }
-
-
-//        // private void initializeLocationLayer(){}
-//
-//
-//        @Override
-//        public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions,
-//        @NonNull int[] grantResults){
-//            permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        }
-//
-//        private void enableLocation () {
-//            if (PermissionsManager.areLocationPermissionsGranted(getActivity())) {
-//                initializeLocationEngine();
-//                initializeLocationLayer();
-//
-//            } else {
-//                permissionsManager = new PermissionsManager(this);
-//                permissionsManager.requestLocationPermissions(getActivity());
-//            }
-//        }
-//        @Override
-//        public void onMapReady (@NonNull MapboxMap mapboxMap){
-//
-//            dmap = mapboxMap;
-//            enableLocation();
-//        }
-//
-//
-//        @Override
-//        public void onExplanationNeeded (List < String > permissionsToExplain) {
-//            //present toast or dialog.
-//
-//        }
-
 
         return mview;
     }
@@ -193,14 +144,72 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
-        mapboxMap.setStyle(Style.SATELLITE,(style)->{enableLocationComponent(style);});
-//        mapboxMap.setStyle(Style.LIGHT, new Style.OnStyleLoaded() {
-//            @Override
-//            public void onStyleLoaded(@NonNull Style style) {
-//                enableLocationComponent(style);
-//
-//            }
-//        });
+        //enableLocation();
+        mapboxMap.setStyle(Style.TRAFFIC_NIGHT, (style) -> {
+            enableLocationComponent(style);
+        });
+
+    }
+
+    //tried
+    @SuppressLint({"WrongConstant", "MissingPermission"})
+    private void enableLocation(@NonNull Style loadedMapStyle) {
+        if (PermissionsManager.areLocationPermissionsGranted(getContext())) {
+
+            // Get an instance of the component
+            LocationComponent locationComponent = mapboxMap.getLocationComponent();
+
+            // Set the LocationComponent activation options
+            LocationComponentActivationOptions locationComponentActivationOptions =
+                    LocationComponentActivationOptions.builder(getContext(), loadedMapStyle)
+                            .useDefaultLocationEngine(false)
+                            .build();
+
+            // Activate with the LocationComponentActivationOptions object
+            locationComponent.activateLocationComponent(locationComponentActivationOptions);
+
+            // Enable to make component visible
+            locationComponent.setLocationComponentEnabled(true);
+
+            // Set the component's camera mode
+            locationComponent.setCameraMode(CameraMode.TRACKING);
+
+            // Set the component's render mode
+            locationComponent.setRenderMode(RenderMode.COMPASS);
+
+            initializeLocationEngine();
+        } else {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(getActivity());
+        }
+    }
+
+    ;
+
+    @SuppressWarnings("MissingPermission")
+    private void initializeLocationEngine() {
+        locationEngine = LocationEngineProvider.getBestLocationEngine(getContext());
+
+        LocationEngineRequest request = new LocationEngineRequest.Builder(DEFAULT_INTERVAL_IN_MILLISECONDS)
+                .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
+                .setMaxWaitTime(DEFAULT_MAX_WAIT_TIME).build();
+
+        LocationEngineCallback<LocationEngineResult> callback = null;
+        locationEngine.requestLocationUpdates(request, callback, getMainLooper());
+        setCameraPosition(originLocation);
+        locationEngine.getLastLocation(callback);
+        System.out.println("Fas here");
+
+    }
+    private void initializeLocationLayer(){
+        locationLayerPlugin= new LocationLayerPlugin(mapView,map,locationEngine);
+        locationLayerPlugin.setLocationLayerEnabled(true);
+        locationLayerPlugin.setCameraMode(CameraMode.TRACKING);
+        locationLayerPlugin.setRenderMode(com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode.NORMAL);
+    }
+
+    private  void  setCameraPosition(Location cameraPosition){
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(cameraPosition.getLatitude(),cameraPosition.getLongitude()),13.0));
     }
 
     @SuppressLint("WrongConstant")
@@ -270,6 +279,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     public void onLocationComponentClick() {
         if (locationComponent.getLastKnownLocation() != null) {
             String str_here= locationComponent.getLastKnownLocation().getLatitude()+""+locationComponent.getLastKnownLocation().getLongitude();
+            System.out.println("Fas: "+str_here);
             Toast.makeText(getActivity(),str_here, Toast.LENGTH_LONG).show();
         }
     }
@@ -304,4 +314,29 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
         }
     }
 
+    ///LocationEngine
+    @Override
+    public void getLastLocation(@NonNull LocationEngineCallback<LocationEngineResult> callback) throws SecurityException {
+
+    }
+
+    @Override
+    public void requestLocationUpdates(@NonNull LocationEngineRequest request, @NonNull LocationEngineCallback<LocationEngineResult> callback, @Nullable Looper looper) throws SecurityException {
+
+    }
+
+    @Override
+    public void requestLocationUpdates(@NonNull LocationEngineRequest request, PendingIntent pendingIntent) throws SecurityException {
+
+    }
+
+    @Override
+    public void removeLocationUpdates(@NonNull LocationEngineCallback<LocationEngineResult> callback) {
+
+    }
+
+    @Override
+    public void removeLocationUpdates(PendingIntent pendingIntent) {
+
+    }
 }
