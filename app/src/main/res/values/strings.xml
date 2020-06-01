@@ -8,4 +8,5 @@
     <string name="tracking_already_enabled">tracking already enabled</string>
     <string name="user_location_permission_explanation">Permission is needed-Explantion</string>
     <string name="user_location_permission_not_granted">user location permission not granted</string>
+    <string name="new_location">new location</string>
 </resources>
