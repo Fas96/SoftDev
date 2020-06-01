@@ -10,8 +10,9 @@ public class SettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
+        System.out.println("Dicky=========================Muneer");
         // Hide status bar
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 // Show status bar
 //        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
