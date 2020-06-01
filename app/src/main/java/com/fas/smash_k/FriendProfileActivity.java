@@ -1,4 +1,4 @@
-package com.fas.smash_k.ui.models.chat.homeChat;
+package com.fas.smash_k;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
-
-import com.fas.smash_k.R;
 
 
 public class FriendProfileActivity extends Activity

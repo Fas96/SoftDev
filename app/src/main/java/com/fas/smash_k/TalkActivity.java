@@ -1,4 +1,4 @@
-package com.fas.smash_k.ui.models.chat.homeChat;
+package com.fas.smash_k;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.fas.smash_k.R;
+import com.fas.smash_k.ui.models.chat.homeChat.CustomAdapter;
 
 public class TalkActivity extends Activity
 {

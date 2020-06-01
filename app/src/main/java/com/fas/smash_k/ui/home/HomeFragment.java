@@ -6,16 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.fas.smash_k.R;
-import com.fas.smash_k.ui.models.chat.homeChat.TalkActivity;
+import com.fas.smash_k.TalkActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -43,8 +40,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view)
             {
-                Intent send_intent = new Intent(getContext(), TalkActivity.class);
-                startActivity(send_intent); // TalkActivity 자바 파일에 전달
+                Intent send_intent = new Intent(getActivity(), TalkActivity.class);
+                getActivity().startActivity(send_intent); // TalkActivity 자바 파일에 전달
             }
         });
         return root;
