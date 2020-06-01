@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/apbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_anchor="@+id/apbarLayout"
+        app:layout_anchorGravity="center">
+
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/ctoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="158dp"
+            app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
+            app:contentScrim="@color/colorwhite"
+            app:expandedTitleTextAppearance="@style/ExpandedAppBar"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="Muneer">
+
+
+
+            <Button
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/settings"
+                app:layout_anchor="@+id/apbarLayout"
+                android:background="@drawable/ic_baseline_settings_24"
+                android:backgroundTint="@android:color/black" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:id="@+id/uploadProfilePicture"
+                android:background="@drawable/ic_baseline_image_24"
+                android:backgroundTint="@android:color/black"
+                app:layout_collapseMode="pin" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_anchor="@+id/apbarLayout">
+
+
+
+<!--                <ImageButton-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="84dp"-->
+<!--                    android:id="@+id/settings"-->
+<!--                    android:backgroundTint="@android:color/transparent"-->
+<!--                    android:tint="@color/colorblack"-->
+<!--                    app:srcCompat="@drawable/ic_baseline_settings_24" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="MuneerId"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="40dp"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="69dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aclonica"
+                android:padding="10dp"
+                android:text="HIGHLIGHTS"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+
+            <android.support.v7.widget.CardView
+                android:layout_gravity="center"
+                android:layout_width="450dp"
+                android:layout_height="120dp"
+                app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/stayhome"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/roundimage"/>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                android:weightSum="2">
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginRight="10dp"
+                    android:layout_width="450dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="30dp"
+                    android:backgroundTint="@android:color/darker_gray">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_margin="10sp"
+                        android:layout_height="wrap_content"
+                        android:text="NO POPS YET" />
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_marginRight="10dp"
+                    android:layout_width="450dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="30dp"
+                    android:backgroundTint="@android:color/darker_gray">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_margin="10sp"
+                        android:layout_height="wrap_content"
+                        android:text="WATCH COUNTS" />
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:cardCornerRadius="30dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@android:color/darker_gray">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10sp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CHANGE YOUR APP ICON" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_baseline_mood_24"
+                            tools:ignore="VectorDrawableCompat" />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_baseline_mood_24"
+                            tools:ignore="VectorDrawableCompat" />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_baseline_mood_24"
+                            tools:ignore="VectorDrawableCompat" />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_baseline_mood_24"
+                            tools:ignore="VectorDrawableCompat" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="YOU OPENED SMASH-K 3 DAYS IN A ROW."
+                        android:gravity="center_horizontal"
+                        />
+
+                </LinearLayout>
+
+
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/heart"
+                    android:backgroundTint="@android:color/transparent"
+                    android:layout_gravity="center_horizontal"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:text="@string/smashkmsg"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

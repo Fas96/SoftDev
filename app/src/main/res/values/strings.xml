@@ -9,4 +9,6 @@
     <string name="user_location_permission_explanation">Permission is needed-Explantion</string>
     <string name="user_location_permission_not_granted">user location permission not granted</string>
     <string name="new_location">new location</string>
+    <string name="lorem">What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?</string>
+    <string name="smashkmsg">In a stroke of genius, you enjoyed Smash-K on a bright morning in May 2020. It\'s been 1 day since then and our love for you has never faltered.</string>
 </resources>
