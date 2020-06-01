@@ -21,6 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TalkActivity" android:label="TalkActivity 입니다."/>
+        <activity android:name=".FriendProfileActivity" android:label="FriendProfileActivity 입니다."/>
     </application>
 
 </manifest>
