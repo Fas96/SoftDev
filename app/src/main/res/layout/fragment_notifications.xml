@@ -22,7 +22,7 @@
           app:contentScrim="@color/colorwhite"
           app:expandedTitleTextAppearance="@style/ExpandedAppBar"
           app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-          app:title="Muneer">
+          app:title="Profile">
 
 
          <Button
@@ -63,9 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="MuneerId"
-                android:textSize="20dp"
-                android:layout_marginLeft="40dp"/>
+                android:text="@string/profile_id"
+                android:textSize="20sp"
+                android:layout_marginStart="40dp"/>
 
          </LinearLayout>
 

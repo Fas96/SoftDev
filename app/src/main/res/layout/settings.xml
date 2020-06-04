@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
-                        android:text="Muneer" />
+                        android:text="Name" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,15 +78,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Username"
-                        android:textSize="20dp"
+                        android:text="@string/username"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="Muneer.123" />
+                        android:textSize="15sp"
+                        android:text="@string/name_ex" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -99,15 +99,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Birthday"
+                        android:text="@string/birthday"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="Jan 2,1998" />
+                        android:textSize="15sp"
+                        android:text="@string/jan_dob_val" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

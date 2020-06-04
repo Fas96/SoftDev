@@ -13,7 +13,7 @@
         android:orientation="horizontal"
    >
         <ImageView
-            android:src="@drawable/x_icon"
+            android:src="@drawable/ic_back_to_chat"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginRight="285dp"
@@ -63,12 +63,12 @@
             android:maxLines="4" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/image_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_weight="1"
-            android:text="전송1" />
+            android:text="IMAGE" />
 
         <Button
             android:id="@+id/button2"
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_weight="1"
-            android:text="전송2" />
+            android:text="SEND" />
 
     </LinearLayout>
 

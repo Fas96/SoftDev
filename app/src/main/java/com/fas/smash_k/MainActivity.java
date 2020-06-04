@@ -1,9 +1,11 @@
 package com.fas.smash_k;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -12,12 +14,6 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
 
-    //here
-    //thus is fas
-    ///yuyttythdjy
-    //stayed in here
-    //aa
-    //i just wrote thos here for trial
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +28,22 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-
-        //this was to test if git is pushed
-
-        //FUCK YOU AGAIN AGAIN BLAH BLAH BLAH
     }
 
+//    @Override
+//    public void startActivityForResult(Intent intent, int requestCode) {
+//        super.startActivityForResult(intent, requestCode);
+//        System.out.println("RUN----");
+//        Intent intent1 = new Intent(TalkActivity.class,getCallingActivity().getClass());
+//
+//        startActivityForResult(intent,requestCode);
+//
+//
+//    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("Run 111");
+    }
 }

@@ -3,6 +3,7 @@ package com.fas.smash_k.ui.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,30 +23,35 @@ import com.fas.smash_k.ui.models.chatItems.ItemConversation;
 import com.fas.smash_k.ui.models.chatItems.ItemMessages;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import okhttp3.Cookie;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
+    //
+
+    public static final int REQUEST_CODE = 11;
+    public static final int RESULT_CODE = 12;
+    public static final String EXTRA_KEY_TEST = "testKey";
     int conversationPosition;
     //Home Conversation Adapter
     ArrayList<ItemConversation> conversations;
     ConversationsAdapter conversationsAdapter;
 
-    private HomeViewModel homeViewModel;
-
-    //head
-    public static final int REQUESTCODE_CONVERSATION_POSITION = 1500;
-    public static final String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
-
     HomeFragment conversationsFragment;
-    FragmentManager fragmentManager = getFragmentManager();
+    FragmentManager fragmentManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         Button btn_new = (Button) root.findViewById(R.id.btn_newActivity_id);
         btn_new.setOnClickListener(this);
 
+
+
+        ///
+        fragmentManager = getFragmentManager();
         //ScrollView scroll_view = (ScrollView) findViewById(R.id.scroll_view_id);
         //recycler view
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.conversation);
@@ -66,7 +72,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return root;
     }
 
-
+    // Initializing and starting the second Activity
+    private void startSecondActivity() {
+        Intent intent = new Intent(getActivity(), TalkActivity.class);
+        startActivityForResult(intent, HomeFragment.REQUEST_CODE);
+    }
 
 
     //top button to convo
@@ -76,16 +86,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         getActivity().startActivity(send_intent);
     }
 
-    public void onActivityResult(int request_code, int result_code, Intent data) {
-        super.onActivityResult(request_code,result_code,data);
-        System.out.println("Fas fax");
-        if (result_code == Activity.RESULT_OK && request_code == 1500 && data != null && data.hasExtra(ConversationsAdapter.CONVENSATIONPOSTON)) {
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("I was called ");
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
+            String testResult = data.getStringExtra(EXTRA_KEY_TEST);
             int conversationPosition = data.getIntExtra(ConversationsAdapter.CONVENSATIONPOSTON, -1);
             if (conversationPosition > -1) {
                 ((ItemConversation) this.conversations.get(conversationPosition)).setUnreadCount(0);
                 this.conversationsAdapter.notifyItemChanged(conversationPosition);
             }
+
+
         }
     }
+
 
 }
