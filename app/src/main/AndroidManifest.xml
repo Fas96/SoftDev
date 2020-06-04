@@ -25,8 +25,6 @@
         <activity android:name=".TalkActivity" android:label="TalkActivity 입니다."/>
         <activity android:name=".FriendProfileActivity" android:label="FriendProfileActivity 입니다."/>
         <activity android:name=".SettingsActivity" android:label="Settings Activity"/>
-        <activity android:name=".SettingsActivity" android:label="Settings Activity"
-            tools:ignore="DuplicateActivity" />
     </application>
 
 </manifest>
