@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             sb.append("/");
             sb.append(days);
             sb.append("/2020");
-            ItemConversation conversation = new ItemConversation("https://images3.alphacoders.com/823/82317.jpg", "Bhim", "whats boiling down", sb.toString(), i);
+            ItemConversation conversation = new ItemConversation("https://images6.alphacoders.com/688/688916.jpg", "Bhim", "whats boiling down", sb.toString(), i);
             this.conversations.add(conversation);
         }
         conversationsAdapter = new ConversationsAdapter(conversations, getActivity());
