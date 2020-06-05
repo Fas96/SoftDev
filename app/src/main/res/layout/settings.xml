@@ -42,9 +42,10 @@
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:id="@+id/profileimage"
                         android:background="@drawable/ic_baseline_image_24"
                         android:backgroundTint="@android:color/black" />
                 </LinearLayout>
@@ -64,6 +65,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/changeName"
                         android:textSize="15dp"
                         android:text="Name" />
                 </LinearLayout>
@@ -86,6 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
+                        android:id="@+id/changeUsername"
                         android:text="@string/name_ex" />
                 </LinearLayout>
                 <LinearLayout
@@ -107,6 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
+                        android:id="@+id/changeBirthday"
                         android:text="@string/jan_dob_val" />
                 </LinearLayout>
                 <LinearLayout
