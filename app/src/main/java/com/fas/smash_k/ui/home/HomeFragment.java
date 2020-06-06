@@ -27,17 +27,20 @@ import java.util.Objects;
 
 import okhttp3.Cookie;
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+import static com.fas.smash_k.ui.adaptors.ConversationsAdapter.CONVENSATIONPOSTON;
 
-    //
+public class HomeFragment extends Fragment  {
 
     public static final int REQUEST_CODE = 11;
     public static final int RESULT_CODE = 12;
     public static final String EXTRA_KEY_TEST = "testKey";
-    int conversationPosition;
+
     //Home Conversation Adapter
-    ArrayList<ItemConversation> conversations;
-    ConversationsAdapter conversationsAdapter;
+      ArrayList<ItemConversation> conversationList;
+      ConversationsAdapter conversationsAdapter;
+      RecyclerView recyclerView;
+
+    int conversationPosition;
 
     HomeFragment conversationsFragment;
     FragmentManager fragmentManager;
@@ -45,8 +48,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button btn_new = (Button) root.findViewById(R.id.btn_newActivity_id);
-        btn_new.setOnClickListener(this);
+
 
 
 
@@ -54,10 +56,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentManager = getFragmentManager();
         //ScrollView scroll_view = (ScrollView) findViewById(R.id.scroll_view_id);
         //recycler view
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.conversation);
+         recyclerView = (RecyclerView) root.findViewById(R.id.conversation);
         System.out.println("Fas");
-        this.conversations = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        conversationList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
             int days = i + 10;
             StringBuilder sb = new StringBuilder();
             sb.append(i);
@@ -65,9 +67,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             sb.append(days);
             sb.append("/2020");
             ItemConversation conversation = new ItemConversation("https://images6.alphacoders.com/688/688916.jpg", "Bhim", "whats boiling down", sb.toString(), i);
-            this.conversations.add(conversation);
+            conversationList.add(conversation);
         }
-        conversationsAdapter = new ConversationsAdapter(conversations, getActivity());
+        conversationsAdapter = new ConversationsAdapter(conversationList, getActivity());
         recyclerView.setAdapter(conversationsAdapter);
         return root;
     }
@@ -79,30 +81,44 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    //top button to convo
-    @Override
-    public void onClick(View v) {
-        Intent send_intent = new Intent(getActivity(), TalkActivity.class);
-        getActivity().startActivity(send_intent);
-    }
-
+//    //top button to convo
+//    @Override
+//    public void onClick(View v) {
+//        Intent send_intent = new Intent(getActivity(), TalkActivity.class);
+//        startActivityForResult(send_intent, HomeFragment.REQUEST_CODE);
+//    }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("I was called ");
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             String testResult = data.getStringExtra(EXTRA_KEY_TEST);
             int conversationPosition = data.getIntExtra(ConversationsAdapter.CONVENSATIONPOSTON, -1);
-            if (conversationPosition > -1) {
-                ((ItemConversation) this.conversations.get(conversationPosition)).setUnreadCount(0);
-                this.conversationsAdapter.notifyItemChanged(conversationPosition);
-            }
 
+                ((ItemConversation) conversationList.get(conversationPosition)).setUnreadCount(0);
+                this.conversationsAdapter.notifyItemChanged(conversationPosition);
 
         }
     }
+
+
+    public  void insertItem(int pos){
+        int i = 9;
+        int days = 0;
+        StringBuilder sb = new StringBuilder();
+        sb.append(9);
+        sb.append("/");
+        sb.append(days);
+        sb.append("/2020");
+        conversationList.add(pos,new ItemConversation("https://images6.alphacoders.com/688/688916.jpg", "Bhim", "whats boiling down", sb.toString(), i));
+        conversationsAdapter.notifyItemInserted(pos);
+    }
+    public  void removeItem(int pos){
+        conversationList.remove(pos);
+        conversationsAdapter.notifyItemRemoved(pos);
+    }
+
 
 
 }

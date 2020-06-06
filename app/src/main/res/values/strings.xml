@@ -11,4 +11,23 @@
     <string name="new_location">new location</string>
     <string name="lorem">What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?</string>
     <string name="smashkmsg">In a stroke of genius, you enjoyed Smash-K on a bright morning in May 2020. It\'s been 1 day since then and our love for you has never faltered.</string>
+    <string name="profile_id">Profile</string>
+    <string name="dummy_text">dummy_text</string>
+    <string name="dummy_texts">dumm_texts</string>
+    <string name="dummy_b">dummb_</string>
+    <string name="uncounted_view">uncounted_view</string>
+    <string name="count_view">9+</string>
+    <string name="username">Birthday</string>
+    <string name="jan_dob_val">01/12/2012</string>
+    <string name="birthday">Birthday</string>
+    <string name="name_ex">name</string>
+    <string name="name">Name</string>
+    <string name="name_">Name</string>
+    <string name="profile">PROFILE</string>
+    <string name="access_permission">Permission requests protect sensitive information available from a device and should only be used when access to information is necessary for the functioning of your app. This document provides tips on ways you might be able to achieve the same (or better) functionality without requiring access to such information; it is not an exhaustive discussion of how permissions work in the Android operating system.</string>
+    <string name="access_reason_tip">Reason for location</string>
+    <string name="enter_your_username">Enter your username</string>
+
+    <string name="enter_your_username_">Enter your username</string>
+    <string name="ok">OK!</string>
 </resources>

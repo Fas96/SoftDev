@@ -18,8 +18,10 @@ import com.fas.smash_k.ui.adaptors.ConversationsAdapter;
 import com.fas.smash_k.ui.home.HomeFragment;
 import com.fas.smash_k.ui.models.chat.homeChat.CustomAdapter;
 
+import java.util.Objects;
+
 public class TalkActivity extends Activity {
-    int conversationPosition;
+    public static int conversationPosition;
     //from item chat
     public static final int REQUESTCODE_CONVERSATION_POSITION = 1500;
     ListView m_ListView;
@@ -34,7 +36,7 @@ public class TalkActivity extends Activity {
         //returns the location of the item
         Intent receivedIntent = getIntent();
         if (receivedIntent != null && receivedIntent.hasExtra(ConversationsAdapter.CONVENSATIONPOSTON)) {
-            this.conversationPosition = receivedIntent.getIntExtra(ConversationsAdapter.CONVENSATIONPOSTON, -1);
+            conversationPosition = receivedIntent.getIntExtra(ConversationsAdapter.CONVENSATIONPOSTON, -1);
             System.out.println("Fas pos:"+conversationPosition);
         }
 
@@ -46,9 +48,12 @@ public class TalkActivity extends Activity {
             @Override
             public void onClick(View view)
             {
+
                 finish();
             }
         });
+
+
 
         icon_friend_profile.setOnClickListener(new View.OnClickListener() // 친구 프로필 아이콘 이미지를 누르면 해당하는 액티비티 화면 출력
         {
@@ -141,8 +146,8 @@ public class TalkActivity extends Activity {
 
     public void onBackPressed() {
         System.out.println("back---fas");
-        Intent i = new Intent(getApplicationContext(),HomeFragment.class);
-        i.putExtra(ConversationsAdapter.CONVENSATIONPOSTON, this.conversationPosition);
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        i.putExtra(ConversationsAdapter.CONVENSATIONPOSTON, conversationPosition);
         setResult(RESULT_OK, i);
         finish();
     }

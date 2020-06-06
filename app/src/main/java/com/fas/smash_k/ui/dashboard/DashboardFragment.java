@@ -1,16 +1,17 @@
 package com.fas.smash_k.ui.dashboard;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
-import com.fas.smash_k.MainActivity;
 import com.fas.smash_k.R;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
@@ -43,8 +43,6 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 
-
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import static android.os.Looper.getMainLooper;
@@ -60,14 +58,20 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     private LocationLayerPlugin locationLayerPlugin;
     private Location originLocation;
 
+    //for the explanation dailog
+
+    Dialog MyDialoge;
+
     //location engine
     private long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
 
+    //mapBox
     private MapView mapView;
     private MapboxMap mapboxMap;
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
+    private LocationEngineResult LocationEngineResult;
 
     @NonNull
     @Override
@@ -76,14 +80,13 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     }
 
 
-
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // mview = ViewModelProviders.of(this).get(DashboardViewModel.class);
+        //map box
         Mapbox.getInstance(getActivity(), getString(R.string.access_token));
+        // loading the fragment
         mview = inflater.inflate(R.layout.fragment_dashboard, container, false);
         //  final TextView textView = root.findViewById(R.id.text_dashboard);
-
+        //loading the map box instance
         dMapView = mview.findViewById(R.id.mapView);
         dMapView.onCreate(savedInstanceState);
 
@@ -130,9 +133,14 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
         }
     }
 
-    ;
+    @SuppressWarnings({"StatementWithEmptyBody", "MissingPermission"})
+    public Location getLastLocation() {
+        String packageName = getActivity().getPackageName();
+        locationEngine.getLastLocation(null);
+        return null;
+    }
 
-    @SuppressWarnings("MissingPermission")
+    @SuppressWarnings({"StatementWithEmptyBody", "MissingPermission"})
     private void initializeLocationEngine() {
         locationEngine = LocationEngineProvider.getBestLocationEngine(getContext());
 
@@ -140,43 +148,50 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
                 .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
                 .setMaxWaitTime(DEFAULT_MAX_WAIT_TIME).build();
 
-     //   Location lastlocation = locationEngine.getLastLocation();
+        //   Location lastlocation = locationEngine.getLastLocation();
         LocationEngineCallback<LocationEngineResult> callback = null;
         locationEngine.requestLocationUpdates(request, callback, getMainLooper());
         setCameraPosition(originLocation);
         locationEngine.getLastLocation(callback);
 
-//        if(lastlocation!=null){
-//            originLocation=lastlocation;
-//        }else {
-//           // locationEngine.addLocationEngineListener(this);
-//        }
+        Location lastlocation = getLastLocation();
+        if(lastlocation!=null){
+            originLocation=lastlocation;
+            setCameraPosition(lastlocation);
+        }else {
+          //  locationEngine.addLocationEngineListener(this);
+        }
         System.out.println("Fas debug notify");
         locationEngine.notify();
         System.out.println("Fas here");
 
     }
-    private void initializeLocationLayer(){
-        locationLayerPlugin= new LocationLayerPlugin(mapView,map,locationEngine);
+
+    private void initializeLocationLayer() {
+        locationLayerPlugin = new LocationLayerPlugin(mapView, map, locationEngine);
         locationLayerPlugin.setLocationLayerEnabled(true);
-        locationLayerPlugin.setCameraMode(CameraMode.NONE_COMPASS);
+        locationLayerPlugin.setCameraMode(CameraMode.TRACKING);
         locationLayerPlugin.setRenderMode(com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode.NORMAL);
     }
 
-    private  void  setCameraPosition(Location cameraPosition){
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(cameraPosition.getLatitude(),cameraPosition.getLongitude()),13.0));
+    private void setCameraPosition(Location cameraPosition) {
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(cameraPosition.getLatitude(), cameraPosition.getLongitude()), 13.0));
     }
 
     @Deprecated
     @SuppressWarnings({"MissingPermission", "StatementWithEmptyBody"})
-    public void onConnected(){
+    public void onConnected() {
 
-       // locationEngine=locationEngine.getLastLocation();
-        LocationListener myLocationListener= new LocationListener() {
+        //locationEngine.requestLocationUpdates(new LocationEngineRequest());
+        // locationEngine=locationEngine.getLastLocation();
+        locationEngine.removeLocationUpdates((LocationEngineCallback<com.mapbox.android.core.location.LocationEngineResult>) LocationEngineResult.getLastLocation());
+
+
+        LocationListener myLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                if(location!=null){
-                    originLocation=location;
+                if (location != null) {
+                    originLocation = location;
                     setCameraPosition(location);
                 }
             }
@@ -201,20 +216,19 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     }
 
     @Deprecated
-    public void  onLocationChanged(Location location){
-        if(location!=null){
-            originLocation=location;
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            originLocation = location;
             setCameraPosition(location);
         }
     }
 
     @SuppressLint("WrongConstant")
-    @SuppressWarnings( {"MissingPermission"})
+    @SuppressWarnings({"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+    // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(getContext())) {
-
-// Create and customize the LocationComponent's options
+    // Create and customize the LocationComponent's options
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(getActivity())
                     .elevation(5)
                     .accuracyAlpha(.6f)
@@ -222,7 +236,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
                     .foregroundDrawable(R.drawable.android_custom_location_icon)
                     .build();
 
-// Get an instance of the component
+    // Get an instance of the component
             locationComponent = mapboxMap.getLocationComponent();
 
             LocationComponentActivationOptions locationComponentActivationOptions =
@@ -230,23 +244,23 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
                             .locationComponentOptions(customLocationComponentOptions)
                             .build();
 
-// Activate with options
+    // Activate with options
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
 
-// Enable to make component visible
+    // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 
-// Set the component's camera mode
+    // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING
             );
 
-// Set the component's render mode
+    // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
 
-// Add the location icon click listener
+    // Add the location icon click listener
             locationComponent.addOnLocationClickListener(this);
 
-// Add the camera tracking listener. Fires if the map camera is manually moved.
+    // Add the camera tracking listener. Fires if the map camera is manually moved.
             locationComponent.addOnCameraTrackingChangedListener(this);
 
             mview.findViewById(R.id.back_to_camera_tracking_mode).setOnClickListener(new View.OnClickListener() {
@@ -256,11 +270,9 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
                         isInTrackingMode = true;
                         locationComponent.setCameraMode(CameraMode.TRACKING);
                         locationComponent.zoomWhileTracking(16f);
-                        Toast.makeText(getActivity(), getString(R.string.tracking_enabled),
-                                Toast.LENGTH_SHORT).show();
+
                     } else {
-                        Toast.makeText(getActivity(), getString(R.string.tracking_already_enabled),
-                                Toast.LENGTH_SHORT).show();
+                        /////
                     }
                 }
             });
@@ -271,14 +283,14 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
         }
     }
 
-    @SuppressWarnings( {"MissingPermission"})
+    @SuppressWarnings({"MissingPermission"})
     @Override
     public void onLocationComponentClick() {
         System.out.println("Fas: 1");
         if (locationComponent.getLastKnownLocation() != null) {
-            String str_here= locationComponent.getLastKnownLocation().getLatitude()+""+locationComponent.getLastKnownLocation().getLongitude();
-            System.out.println("Fas: "+str_here);
-            Toast.makeText(getActivity(),str_here, Toast.LENGTH_LONG).show();
+            String str_here = locationComponent.getLastKnownLocation().getLatitude() + "" + locationComponent.getLastKnownLocation().getLongitude();
+            System.out.println("Fas: " + str_here);
+            Toast.makeText(getActivity(), str_here, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -298,14 +310,37 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     }
 
     @Override
+    @SuppressWarnings("StatementWithEmptyBody")
     public void onExplanationNeeded(List<String> permissionsToExplain) {
-        Toast.makeText(getActivity(), R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
+        MyDialoge=new Dialog(getContext());
+        MyDialoge.setContentView(R.layout.permission);
+        MyDialoge.setTitle("Why Location Permission is Required");
+        MyDialoge.show();
+        Button mok_btn = MyDialoge.findViewById(R.id.ok_btn);
+
+        mok_btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                MyDialoge.dismiss();
+
+                mapboxMap = mapboxMap;
+                //enableLocation();
+                mapboxMap.setStyle(Style.OUTDOORS, (style) -> {
+                    MyDialoge.cancel();
+                    enableLocationComponent(style);
+                });
+                MyDialoge.cancel();
+            }
+        });
     }
 
     @Override
     public void onPermissionResult(boolean granted) {
         if (granted) {
-            mapboxMap.getStyle((style ->{enableLocationComponent(style);}));
+            mapboxMap.getStyle((style -> {
+                enableLocationComponent(style);
+            }));
         } else {
             Toast.makeText(getActivity(), R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show();
 
@@ -315,7 +350,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     ///LocationEngine
     @Override
     public void getLastLocation(@NonNull LocationEngineCallback<LocationEngineResult> callback) throws SecurityException {
-        originLocation= (Location) callback;
+        originLocation = (Location) callback;
 
     }
 
@@ -355,16 +390,30 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
         dMapView.onPause();
     }
 
+
+    @SuppressWarnings({"MissingPermission"})
     @Override
     public void onStop() {
         super.onStop();
+
+        if (locationEngine !=null){
+            locationEngine.removeLocationUpdates((LocationEngineCallback<com.mapbox.android.core.location.LocationEngineResult>) LocationEngineResult.getLastLocation());
+        }
+        if (locationLayerPlugin != null){
+            locationLayerPlugin.onStop();
+        }
+
         dMapView.onStop();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (locationEngine != null){
+           // locationEngine.deactivate();
+        }
         dMapView.onDestroy();
+
     }
 
     @Override
@@ -384,7 +433,19 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
         super.onDetach();
         dMapView.onFinishTemporaryDetach();
     }
-
-
-
+    @Override
+    @SuppressWarnings("MissingPermission")
+    public void onStart() {
+        super.onStart();
+        if (locationEngine != null){
+           // locationEngine.requestLocationUpdates();
+            System.out.println("location engine");
+        }
+        if (locationLayerPlugin != null){
+            System.out.println("location engine");
+        }
+        dMapView.onStart();
     }
+
+
+}

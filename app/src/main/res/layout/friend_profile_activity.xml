@@ -9,31 +9,31 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
+
         <ImageView
-            android:src="@drawable/x_icon"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_marginRight="20dp"
             android:id="@+id/icon_x_id"
-            />
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/x_icon" />
         <ImageView
             android:src="@drawable/setting_icon"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginRight="20dp"
             android:id="@+id/setting_id"
             />
         <ImageView
             android:src="@drawable/share_icon"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginRight="20dp"
             android:id="@+id/share_id"
             />
         <ImageView
             android:src="@drawable/call_icon"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/call_id"
             />
     </LinearLayout>
