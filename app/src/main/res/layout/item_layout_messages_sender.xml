@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8.0dip"
+    android:orientation="horizontal"
+    android:weightSum="1.0">
+
+    <View
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2" />
+
+    <RelativeLayout
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:background="@drawable/bg_sent_messages"
+        android:gravity="right"
+        android:padding="8.0dip">
+
+        <TextView
+            android:id="@id/date_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16.0dip"
+            android:text="25/25/2050" />
+
+        <ImageView
+            android:id="@+id/status_image"
+            android:layout_width="15.0dip"
+            android:layout_height="15.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_status_sent" />
+
+        <TextView
+            android:id="@+id/sent_message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/date_view"
+            android:layout_toLeftOf="@id/date_view" />
+    </RelativeLayout>
+</LinearLayout>

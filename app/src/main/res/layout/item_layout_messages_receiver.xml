@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8.0dip"
+    android:orientation="horizontal"
+    android:weightSum="1.0">
+
+    <RelativeLayout
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:background="@drawable/bg_received_messages"
+        android:gravity="right"
+        android:padding="8.0dip">
+
+        <TextView
+            android:id="@+id/date_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16.0dip"
+            android:text="25/25/2050" />
+
+        <TextView
+            android:id="@+id/reciever_message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/date_view"
+            android:layout_toLeftOf="@id/date_view" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2" />
+</LinearLayout>

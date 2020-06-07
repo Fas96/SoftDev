@@ -11,21 +11,44 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fas.smash_k.ui.adaptors.ConversationsAdapter;
+import com.fas.smash_k.ui.adaptors.MessageAdapter;
 import com.fas.smash_k.ui.home.HomeFragment;
 import com.fas.smash_k.ui.models.chat.homeChat.CustomAdapter;
+import com.fas.smash_k.ui.models.chatItems.Contact;
+import com.fas.smash_k.ui.models.chatItems.ItemMessages;
+import com.fas.smash_k.ui.models.chatItems.User;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 
 public class TalkActivity extends Activity {
-    public static int conversationPosition;
+
+    //implementing the adapters
+    int conversationPosition;
+    ArrayList<ItemMessages> itemMessages = new ArrayList<>();
+    MessageAdapter messagesAdapter;
+    /* access modifiers changed from: private */
+    public int sentMessageCount = 1;
+
+
     //from item chat
     public static final int REQUESTCODE_CONVERSATION_POSITION = 1500;
-    ListView m_ListView;
-    CustomAdapter m_Adapter;
+
+
+//    ListView m_ListView;
+//    CustomAdapter m_Adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -39,6 +62,48 @@ public class TalkActivity extends Activity {
             conversationPosition = receivedIntent.getIntExtra(ConversationsAdapter.CONVENSATIONPOSTON, -1);
             System.out.println("Fas pos:"+conversationPosition);
         }
+
+        this.messagesAdapter = new MessageAdapter(getApplicationContext(), itemMessages);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.messages_recyclereview);
+        recyclerView.setAdapter(messagesAdapter);
+        final EditText messageToBeSentView = (EditText) findViewById(R.id.editText1);
+        ((ImageButton) findViewById(R.id.button2)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EditText editText = messageToBeSentView;
+                if (editText != null && !editText.getText().toString().isEmpty()) {
+                    String message = messageToBeSentView.getText().toString();
+                    Date date = new Date();
+                    SimpleDateFormat sfm = new SimpleDateFormat("dd/MM/yyyy");
+                    String stringDate = sfm.format(date);
+//                    User user = SharedPref.getUser(SharedPref.KEY_USER);
+                    TalkActivity.this.addMessage(new ItemMessages(message, stringDate, ItemMessages.SENT));
+                  //  TalkActivity.this.sentMessageCount = TalkActivity.this.sentMessageCount + 1;
+                    messageToBeSentView.setText("");
+                    recyclerView.scrollToPosition(TalkActivity.this.messagesAdapter.getItemCount() - 1);
+//                    if (TalkActivity.this.sentMessageCount % 5 == 0) {
+//                        String message1 = TalkActivity.replyMessage();
+//                        Date date1 = new Date();
+//                        new SimpleDateFormat("dd/MM/yyyy");
+//                        TalkActivity.this.addMessage(new ItemMessages(message1, sfm.format(date1), -1, new Contact(user.getName(), new User(20, "Someone", "LastName").getId())));
+//                        TalkActivity.this.sentMessageCount = 1;
+//                    }
+                }
+            }
+        });
+
+
+
+
+
+
+    /*    //////////////////////////////////////////////////////////////////////
+        add
+        //////////////////////////////////////////////////////////////////////*/
+
+
+
+
+
 
         ImageView icon_x = (ImageView) findViewById(R.id.icon_x_id); // x 아이콘 이미지 ID 매칭
         ImageView icon_friend_profile = (ImageView) findViewById(R.id.icon_friend_id);  // 친구 프로필 아이콘 이미지 ID 매칭
@@ -67,13 +132,13 @@ public class TalkActivity extends Activity {
 
 
         // 커스텀 어댑터 생성
-        m_Adapter = new CustomAdapter();
-
-        // Xml에서 추가한 ListView 연결
-        m_ListView = (ListView) findViewById(R.id.listView1);
-
-        // ListView에 어댑터 연결
-        m_ListView.setAdapter(m_Adapter);
+//        m_Adapter = new CustomAdapter();
+//
+//        // Xml에서 추가한 ListView 연결
+//        m_ListView = (ListView) findViewById(R.id.listView1);
+//
+//        // ListView에 어댑터 연결
+//        m_ListView.setAdapter(m_Adapter);
 
         findViewById(R.id.image_id).setOnClickListener(new Button.OnClickListener() // image 버튼 누를시에
         {
@@ -122,25 +187,28 @@ public class TalkActivity extends Activity {
             }
         });
 
-        findViewById(R.id.button2).setOnClickListener(new Button.OnClickListener()
-         {
-             @Override
-             public void onClick(View v)
-             {
-                 EditText editText = (EditText) findViewById(R.id.editText1);
-                 String inputValue = editText.getText().toString();
-                 editText.setText("");
-                 refresh(inputValue,1);
-             }
-         }
-         );
+//        findViewById(R.id.button2).setOnClickListener(new Button.OnClickListener()
+//         {
+//             @Override
+//             public void onClick(View v)
+//             {
+//                 EditText editText = (EditText) findViewById(R.id.editText1);
+//                 String inputValue = editText.getText().toString();
+//                 editText.setText("");
+//                 refresh(inputValue,1);
+//             }
+//         }
+//         );
     }
-
-    private void refresh (String inputValue, int _str)
-    {
-        m_Adapter.add(inputValue,_str) ;
-        m_Adapter.notifyDataSetChanged();
-    }
+//
+//    private void refresh (String inputValue, int _str)
+//    {
+//
+//        if(!inputValue.equals("")){
+//        m_Adapter.add(inputValue,_str) ;
+//        m_Adapter.notifyDataSetChanged();
+//        }
+//    }
 
 
 
@@ -156,6 +224,33 @@ public class TalkActivity extends Activity {
         intent.putExtra(HomeFragment.EXTRA_KEY_TEST, "Testing passing data back to ActivityOne");
         setResult(HomeFragment.RESULT_CODE, intent);
         finish();
+    }
+
+
+  /*  //////////////////////////////////////////////////////
+
+
+    added
+
+
+
+    /////////////////////////////////////////////////////////*/
+  /* access modifiers changed from: private */
+  public void addMessage(ItemMessages itemMessage) {
+      int itemCount = this.itemMessages.size();
+      this.itemMessages.add(itemMessage);
+      this.messagesAdapter.notifyItemInserted(itemCount);
+  }
+
+    /* access modifiers changed from: private */
+    public static String replyMessage() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(50);
+        for (int i = 0; i < randomLength; i++) {
+            randomStringBuilder.append((char) (generator.nextInt(96) + 32));
+        }
+        return randomStringBuilder.toString();
     }
 
 }
