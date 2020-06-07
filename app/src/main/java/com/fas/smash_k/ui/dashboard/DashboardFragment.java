@@ -2,12 +2,21 @@ package com.fas.smash_k.ui.dashboard;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +25,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
 import com.fas.smash_k.R;
+import com.fas.smash_k.ui.home.HomeFragment;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -27,7 +38,12 @@ import com.mapbox.android.core.location.LocationEngineRequest;
 import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.directions.v5.models.DirectionsResponse;
+import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
@@ -42,17 +58,24 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
+import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
+import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
+import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
+import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
+
 import static android.os.Looper.getMainLooper;
 
-public class DashboardFragment extends Fragment implements OnMapReadyCallback, OnLocationClickListener, LocationEngine, PermissionsListener, OnCameraTrackingChangedListener, LocationEngineListener {
+public class DashboardFragment extends Fragment implements OnMapReadyCallback, OnLocationClickListener, LocationEngine, PermissionsListener, OnCameraTrackingChangedListener, LocationEngineListener,MapboxMap.OnMapClickListener {
 
-    private DashboardViewModel dashboardViewModel;
     private MapView dMapView;
     private View mview;
-    private MapboxMap map;
     private PermissionsManager permissionsManager;
     private LocationEngine locationEngine;
     private LocationLayerPlugin locationLayerPlugin;
@@ -67,18 +90,29 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     private long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
 
     //mapBox
-    private MapView mapView;
     private MapboxMap mapboxMap;
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
     private LocationEngineResult LocationEngineResult;
 
+    //point clicked
+    private Point originPosition;
+    private Point destinationPosition;
+    private Marker destinationMarker;
+    //button to start
+    private Button start_nav_button;
+    DirectionsRoute currentRoute;
+
+    //variables to route
+    private NavigationMapRoute navigationMapRoute;
+    private static final  String TAG ="DashboardActivity";
+
     @NonNull
-    @Override
     public Lifecycle getLifecycle() {
         return super.getLifecycle();
     }
 
+    @Override
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //map box
@@ -92,6 +126,26 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
 
         dMapView.getMapAsync(this);
 
+
+
+        //getting the start nav button
+        start_nav_button=mview.findViewById(R.id.nav_btn);
+        start_nav_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DirectionsRoute route = currentRoute;
+// Create a NavigationLauncherOptions object to package everything together
+                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                        .directionsRoute(route)
+                        .shouldSimulateRoute(true)
+                        .build();
+
+// Call this method with Context from within an Activity
+                NavigationLauncher.startNavigation(getActivity(), options);
+
+            }
+        });
+
         return mview;
     }
     //add
@@ -99,10 +153,9 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+        mapboxMap.addOnMapClickListener(this);
         //enableLocation();
-        mapboxMap.setStyle(Style.TRAFFIC_NIGHT, (style) -> {
-            enableLocationComponent(style);
-        });
+        mapboxMap.setStyle(Style.MAPBOX_STREETS, this::enableLocationComponent);
 
     }
 
@@ -136,8 +189,8 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     @SuppressWarnings({"StatementWithEmptyBody", "MissingPermission"})
     public Location getLastLocation() {
         String packageName = getActivity().getPackageName();
-        locationEngine.getLastLocation(null);
-        return null;
+
+        return LocationEngineResult.getLastLocation();
     }
 
     @SuppressWarnings({"StatementWithEmptyBody", "MissingPermission"})
@@ -168,14 +221,14 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     }
 
     private void initializeLocationLayer() {
-        locationLayerPlugin = new LocationLayerPlugin(mapView, map, locationEngine);
+        locationLayerPlugin = new LocationLayerPlugin(dMapView, mapboxMap, locationEngine);
         locationLayerPlugin.setLocationLayerEnabled(true);
         locationLayerPlugin.setCameraMode(CameraMode.TRACKING);
         locationLayerPlugin.setRenderMode(com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode.NORMAL);
     }
 
     private void setCameraPosition(Location cameraPosition) {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(cameraPosition.getLatitude(), cameraPosition.getLongitude()), 13.0));
+        mapboxMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(cameraPosition.getLatitude(), cameraPosition.getLongitude()), 13.0));
     }
 
     @Deprecated
@@ -190,6 +243,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
         LocationListener myLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                originLocation=location;
                 if (location != null) {
                     originLocation = location;
                     setCameraPosition(location);
@@ -296,7 +350,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
 
     @Override
     public void onCameraTrackingDismissed() {
-        isInTrackingMode = false;
+        isInTrackingMode = true;
     }
 
     @Override
@@ -410,7 +464,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
     public void onDestroy() {
         super.onDestroy();
         if (locationEngine != null){
-           // locationEngine.deactivate();
+           // locationEngine.deactivate()
         }
         dMapView.onDestroy();
 
@@ -440,12 +494,67 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, O
         if (locationEngine != null){
            // locationEngine.requestLocationUpdates();
             System.out.println("location engine");
+            locationEngine.removeLocationUpdates((LocationEngineCallback<com.mapbox.android.core.location.LocationEngineResult>) LocationEngineResult.getLastLocation());
+
         }
         if (locationLayerPlugin != null){
             System.out.println("location engine");
+            locationLayerPlugin.onStart();
         }
         dMapView.onStart();
     }
 
+
+
+    @Override
+    public boolean onMapClick(@NonNull LatLng point) {
+        //remove markers
+        if(destinationMarker!=null){
+            mapboxMap.removeMarker(destinationMarker);
+        }
+        //Toast.makeText(getContext(),"CLicked",Toast.LENGTH_SHORT).show();
+        destinationMarker =mapboxMap.addMarker(new MarkerOptions().position(point));
+
+        destinationPosition=Point.fromLngLat(point.getLongitude(),point.getLatitude());
+        originPosition=Point.fromLngLat(point.getLongitude(),point.getLatitude());
+
+        getRoute(originPosition,destinationPosition);
+        start_nav_button.setEnabled(true);
+
+
+        return true;
+    }
+
+    //this method is to get the route
+    private void  getRoute(Point origin, Point destination){
+        NavigationRoute.builder(getContext())
+                .accessToken(Mapbox.getAccessToken())
+                .origin(origin)
+                .destination(destination)
+                .build()
+                .getRoute(new Callback<DirectionsResponse>() {
+                    @Override
+                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+                          if (response.body()==null){
+                              Timber.e("No routes foind, check right user and access token");
+                          }else if (response.body().routes().size()==0){
+                              Timber.e("FAS"+"No routes found");
+                          }
+                           currentRoute = response.body().routes().get(0);
+                          if(navigationMapRoute!=null){
+                              navigationMapRoute.removeRoute();
+                          }else {
+                              navigationMapRoute= new NavigationMapRoute(null,dMapView,mapboxMap);
+                          }
+                          navigationMapRoute.addRoute(currentRoute);
+                    }
+
+                    @Override
+                    public void onFailure(Call<DirectionsResponse> call, Throwable t) {
+                        Timber.e("FAS"+t.getMessage());
+
+                    }
+                });
+    }
 
 }

@@ -30,6 +30,14 @@
             app:srcCompat="@drawable/ic_my_location"
             mapbox:fabSize="auto"
             tools:ignore="VectorDrawableCompat" />
+
+        <Button
+            android:id="@+id/nav_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_btn"
+            android:enabled="false"
+            android:text="@string/start_nav_btn" />
     </com.mapbox.mapboxsdk.maps.MapView>
 
 </RelativeLayout>

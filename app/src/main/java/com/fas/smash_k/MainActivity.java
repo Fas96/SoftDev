@@ -1,8 +1,16 @@
 package com.fas.smash_k;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 
+import com.fas.smash_k.ui.dashboard.DashboardFragment;
+import com.fas.smash_k.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -27,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+
 
     }
 

@@ -30,4 +30,5 @@
 
     <string name="enter_your_username_">Enter your username</string>
     <string name="ok">OK!</string>
+    <string name="start_nav_btn">Start Navigation</string>
 </resources>
