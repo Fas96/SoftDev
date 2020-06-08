@@ -9,4 +9,8 @@
     <color name="colorwhite">#ffffff</color>
     <color name="mapboxBlue">#4264fb</color>
     <color name="mapboxGrayLight">#c6d2e1</color>
+
+    //button text color
+    <color name="pressedbuttontextcolor">#39E7FD</color>
+    <color name="pressedbuttonbgcolor">#041571</color>
 </resources>

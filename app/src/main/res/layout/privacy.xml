@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="PRIVACY SETTINGS"
+        android:textSize="30sp"/>
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/privacyHeadings"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Privacy Mode"/>
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_toRightOf="@id/privacyHeadings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:checked="true"
+            android:textOff="OFF"
+            android:textOn="ON"/>
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacytext"
+            android:textSize="16sp"
+            android:layout_marginTop="35dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
