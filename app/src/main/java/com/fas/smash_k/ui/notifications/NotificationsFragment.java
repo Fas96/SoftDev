@@ -1,9 +1,12 @@
 package com.fas.smash_k.ui.notifications;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -42,13 +45,19 @@ public class NotificationsFragment extends Fragment implements View.OnClickListe
     Button ProfileImage;
     Toolbar toolbar;
     Uri imageUri;
+    int appicons[]=new int[]{R.id.appicon1,R.id.appicon2,R.id.appicon3,R.id.appicon4};
     CollapsingToolbarLayout ctoolbar;
     private  View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+
         root = inflater.inflate(R.layout.fragment_notifications, container, false);
+
+        //hooks for appicons
+        for(int i=0;i<appicons.length;i++){
+            ImageButton ib=root.findViewById(appicons[i]);
+            ib.setOnClickListener(this);
+        }
 
         settingsButton = root.findViewById(R.id.settings);
         ProfileImage=root.findViewById(R.id.profileimage);
@@ -69,12 +78,59 @@ public class NotificationsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-            Intent gallery = new Intent();
-            gallery.setType("image/*");
-            gallery.setAction(Intent.ACTION_GET_CONTENT);
+        switch (view.getId())
+        {
+            case R.id.appicon1:
+            case R.id.appicon2:
+            case R.id.appicon3:
+            case R.id.appicon4:
+                showCustomDialog();
+                break;
+            default:
+                getProfileImage();
 
-            startActivityForResult(Intent.createChooser(gallery, "Select Picture"), 1);
         }
+
+        }
+
+    public void showCustomDialog() {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = root.findViewById(((ViewGroup)getView().getParent()).getId());
+
+        //then we will inflate the custom alert dialog xml that we created
+        final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.change_icon_dialogue_box, viewGroup, false);
+
+
+
+        Button close=(Button)dialogView.findViewById(R.id.buttonOk);
+
+
+
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        //finally creating the alert dialog and displaying it
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+
+    }
+
+    private void getProfileImage() {
+        Intent gallery = new Intent();
+        gallery.setType("image/*");
+        gallery.setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(gallery, "Select Picture"), 1);
+    }
 
 
     @Override
