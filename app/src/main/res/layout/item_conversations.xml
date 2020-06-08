@@ -11,15 +11,15 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8.0dip"
-        android:layout_marginBottom="8.0dip">
+        android:layout_marginTop="2.0dip"
+        android:layout_marginBottom="2.0dip">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/conversation_image"
             android:layout_width="50.0dip"
             android:layout_height="50.0dip"
-            android:src="@drawable/profile_icon"
+            android:src="@drawable/ic_profile_account_circle_24"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_margin="8.0dip" />
@@ -29,21 +29,21 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/conversation_image"
-            android:layout_toLeftOf="@+id/conversation_date"
-            android:layout_toRightOf="@id/conversation_image"
+            android:layout_toStartOf="@+id/conversation_date"
+            android:layout_toEndOf="@id/conversation_image"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="ereereytfuygiuohijokpfgvbnmfgjhbjlkfgvhbnmgvhbjnkml" />
+            android:text="@string/dummy_text" />
 
         <TextView
             android:id="@+id/last_message"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/conversation_image"
-            android:layout_toRightOf="@id/conversation_image"
+            android:layout_toEndOf="@id/conversation_image"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="aaaaa" />
+            android:text="@string/dummy_texts" />
 
         <TextView
             android:id="@id/conversation_date"
@@ -53,7 +53,7 @@
             android:layout_alignParentEnd="true"
             android:paddingLeft="8.0dip"
             android:paddingRight="8.0dip"
-            android:text="bbbbbb" />
+            android:text="@string/dummy_b" />
 
         <TextView
             android:id="@+id/message_count"
@@ -65,7 +65,7 @@
             android:layout_marginRight="8.0dip"
             android:background="@drawable/bg_message_unread_count"
             android:gravity="center"
-            android:text="9+"
+            android:text="@string/count_view"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

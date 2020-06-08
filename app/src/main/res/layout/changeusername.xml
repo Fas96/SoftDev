@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/getName"
         android:inputType="text"
-        android:hint="Enter your username"/>
+        android:hint="@string/enter_your_username"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:id="@+id/OK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK!" />
+            android:text="@string/ok" />
 
     </LinearLayout>
 </LinearLayout>

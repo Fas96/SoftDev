@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="access_token" >sk.eyJ1IjoiZmFzOTYiLCJhIjoiY2thdjZpdjZ5MWZ6MjJwcWZncXgxaTdnMiJ9.bXCQAdRFf96aW7CApYCNdQ</string>
+    <string name="access_token">sk.eyJ1IjoiZmFzOTYiLCJhIjoiY2thdjZpdjZ5MWZ6MjJwcWZncXgxaTdnMiJ9.bXCQAdRFf96aW7CApYCNdQ</string>
     <string name="tracking_enabled">Tracking enabled</string>
     <string name="tracking_already_enabled">tracking already enabled</string>
     <string name="user_location_permission_explanation">Permission is needed-Explantion</string>
@@ -11,9 +11,36 @@
     <string name="new_location">new location</string>
     <string name="privacytext">Only those in your contacts can add you as a friend.\n\nYou can exchange messages and emojis to people in your phone contact and your Smash-K friends only.</string>
     <string name="smashkmsg">In a stroke of genius, you enjoyed Smash-K on a bright morning in May 2020. It\'s been 1 day since then and our love for you has never faltered.</string>
-    <string name="profile_id">Profile id</string>
-    <string name="name_ex">name.123</string>
-    <string name="username">Username</string>
+    <string name="profile_id">Profile</string>
+    <string name="dummy_text">dummy_text</string>
+    <string name="dummy_texts">dumm_texts</string>
+    <string name="dummy_b">dummb_</string>
+    <string name="uncounted_view">uncounted_view</string>
+    <string name="count_view">9+</string>
+    <string name="username">Birthday</string>
+    <string name="jan_dob_val">01/12/2012</string>
     <string name="birthday">Birthday</string>
-    <string name="jan_dob_val">Jan 2,1998</string>
+    <string name="name_ex">name</string>
+    <string name="name">Name</string>
+    <string name="name_">Name</string>
+    <string name="profile">PROFILE</string>
+    <string name="access_permission">Permission requests protect sensitive information available from a device and should only be used when access to information is necessary for the functioning of your app. This document provides tips on ways you might be able to achieve the same (or better) functionality without requiring access to such information; it is not an exhaustive discussion of how permissions work in the Android operating system.</string>
+    <string name="access_reason_tip">Reason for location</string>
+    <string name="enter_your_username">Enter your username</string>
+
+    <string name="enter_your_username_">Enter your username</string>
+    <string name="ok">OK!</string>
+    <string name="start_nav_btn">Start Navigation</string>
+
+
+    <string name="register">REGISTER</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_login_hint">Already have an account? Sign In</string>
+    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
+    <string name="login_background">login background</string>
+    <string name="app_snipp">Smash-K</string>
+    <string name="register_">Register</string>
+    <string name="login">Login</string>
+    <string name="hint_message_edt">Start a message</string>
 </resources>

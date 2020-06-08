@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16.0dip">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_profile"
+                android:layout_width="200.0dip"
+                android:layout_height="200.0dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16.0dip"
+                android:elevation="5.0dip"
+                android:src="@drawable/ic_profile"
+                app:cardCornerRadius="100.0dip"/>
+            <!--                <de.hdodenhof.circleimageview.CircleImageView-->
+            <!--                    android:id="@+id/image_profile"-->
+            <!--                    android:layout_width="200.0dip"-->
+            <!--                    android:layout_height="200.0dip"-->
+            <!--                    android:src="@drawable/ic_profile" />-->
+            <!--            </de.hdodenhof.circleimageview.CircleImageView>-->
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.0dip"
+                android:hint="Enter name" />
+
+            <EditText
+                android:id="@+id/last_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.0dip"
+                android:hint="Enter last name" />
+
+            <TextView
+                android:id="@+id/dob"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.0dip"
+                android:background="@drawable/bg_date_of_birth"
+                style="@style/loginButton"
+                android:padding="8.0dip"
+                android:text="Date of Birth"
+                android:textAlignment="center"
+                android:textSize="18.0sp" />
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.0dip"
+                android:hint="Enter Email" />
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.0dip"
+                android:hint="Enter phone"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.0dip"
+                android:hint="Enter password"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/reenter_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.0dip"
+                android:hint="Enter confirm"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/register_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.0dip"
+                style="@style/loginButton"
+                android:text="Register" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.cardview.widget.CardView>

@@ -28,7 +28,7 @@
 
 
             <Button
-                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_width="45dp"
                 android:layout_height="wrap_content"
@@ -36,14 +36,14 @@
                 app:layout_anchor="@+id/apbarLayout"
                 android:background="@drawable/ic_baseline_settings_24"
                 android:backgroundTint="@android:color/black" />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:layout_collapseMode="pin"
                 android:layout_gravity="bottom|right"
                 android:id="@+id/uploadProfilePicture"
                 android:background="@drawable/ic_baseline_image_24"
-                android:backgroundTint="@android:color/black"
-                app:layout_collapseMode="pin" />
+                android:backgroundTint="@android:color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
