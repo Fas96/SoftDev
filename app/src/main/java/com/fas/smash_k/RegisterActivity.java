@@ -1,10 +1,7 @@
 package com.fas.smash_k;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,14 +15,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.fas.smash_k.ui.models.chatItems.User;
 
-import java.io.PrintStream;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class RegisterActivity extends Activity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     public static final int REQUEST_CODE_BIRTHDATE = 2;
     public static final int REQUST_CODE_EXTERNAL_PERMISSION = 1;

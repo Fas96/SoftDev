@@ -71,4 +71,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="permission" parent="viewParent">
+        <item name="android:background">@drawable/bg_permission</item>
+        <item name="android:textColor">@color/whiteTextColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">500dp</item>
+        <item name="height">500dp</item>
+    </style>
+
 </resources>

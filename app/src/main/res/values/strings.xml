@@ -24,7 +24,13 @@
     <string name="name">Name</string>
     <string name="name_">Name</string>
     <string name="profile">PROFILE</string>
-    <string name="access_permission">Permission requests protect sensitive information available from a device and should only be used when access to information is necessary for the functioning of your app. This document provides tips on ways you might be able to achieve the same (or better) functionality without requiring access to such information; it is not an exhaustive discussion of how permissions work in the Android operating system.</string>
+    <string name="access_permission">Permission\n
+        requests protect sensitive information available\n from a
+        device and should only be used when access to information\n is necessary
+        for the functioning of your app.\n This document provides tips on ways you
+        might be able to achieve the same (or better) functionality without requiring
+        access to such information;\n it is not an exhaustive discussion of how permissions\n
+        work in the \nAndroid operating system.</string>
     <string name="access_reason_tip">Reason for location</string>
     <string name="enter_your_username">Enter your username</string>
 

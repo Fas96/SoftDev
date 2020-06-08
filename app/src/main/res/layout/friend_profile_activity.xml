@@ -4,62 +4,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-        <ImageView
-            android:id="@+id/icon_x_id"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/x_icon" />
-        <ImageView
-            android:src="@drawable/setting_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/setting_id"
-            />
-        <ImageView
-            android:src="@drawable/share_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/share_id"
-            />
-        <ImageView
-            android:src="@drawable/call_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:id="@+id/call_id"
-            />
-    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
         >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:src="@drawable/x_icon"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/icon_x_id"
+                />
+            <ImageView
+                android:src="@drawable/setting_icon"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/setting_id"
+                />
+            <ImageView
+                android:src="@drawable/share_icon"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/share_id"
+                />
+            <ImageView
+                android:src="@drawable/call_icon"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:id="@+id/call_id"
+                />
+        </LinearLayout>
 
-        <!-- 친구 이름-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            >
+
+            <!-- 친구 이름-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="70dp"
+                android:text="Friend_name"
+                android:textColor="#0000FF"
+                android:textSize="35dp" />
+
+            <!-- 친구 프로필 사진-->
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/profile_icon"
+                />
+
+        </LinearLayout>
+
+
+
+
+        <TextView
+
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="12 FRIENDS"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="70dp"
-            android:text="JoSungJun"
-            android:textColor="#0000FF"
-            android:textSize="35dp" />
+            android:text="2 MUTUAL FRIEND"/>
 
-        <!-- 친구 프로필 사진-->
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/profile_icon"
-            />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/friend_list_id">
+        </ListView>
 
     </LinearLayout>
 

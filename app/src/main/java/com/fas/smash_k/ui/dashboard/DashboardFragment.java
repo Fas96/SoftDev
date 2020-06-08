@@ -144,6 +144,8 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, P
                 DirectionsRoute route = currentRoute;
         // Create a NavigationLauncherOptions object to package everything together
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                        //simulate
+                        //.shouldSimulateRoute(true)
                         .directionsRoute(route)
                         .build();
 
