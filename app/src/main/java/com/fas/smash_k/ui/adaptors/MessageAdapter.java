@@ -111,4 +111,5 @@ public class MessageAdapter extends RecyclerView.Adapter<ViewHolder> {
 //        }
         return 1;
     }
+
 }

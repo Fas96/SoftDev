@@ -2,8 +2,6 @@ package com.fas.smash_k;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,22 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fas.smash_k.ui.adaptors.ConversationsAdapter;
 import com.fas.smash_k.ui.adaptors.MessageAdapter;
-import com.fas.smash_k.ui.home.HomeFragment;
-import com.fas.smash_k.ui.models.chat.homeChat.CustomAdapter;
-import com.fas.smash_k.ui.models.chatItems.Contact;
+import com.fas.smash_k.ui.home.ChatFragment;
 import com.fas.smash_k.ui.models.chatItems.ItemMessages;
-import com.fas.smash_k.ui.models.chatItems.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 import java.util.Random;
 
 public class TalkActivity extends Activity {
@@ -221,8 +214,8 @@ public class TalkActivity extends Activity {
     }
     private void closeActivity() {
         Intent intent = new Intent();
-        intent.putExtra(HomeFragment.EXTRA_KEY_TEST, "Testing passing data back to ActivityOne");
-        setResult(HomeFragment.RESULT_CODE, intent);
+        intent.putExtra(ChatFragment.EXTRA_KEY_TEST, "Testing passing data back to ActivityOne");
+        setResult(ChatFragment.RESULT_CODE, intent);
         finish();
     }
 

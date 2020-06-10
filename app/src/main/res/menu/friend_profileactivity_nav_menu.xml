@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingDefaultResource">
+
+    <item
+        android:id="@+id/cancel_return_menu_item"
+        android:icon="@drawable/ic_friendprof_cancel_24"
+        android:title="@string/cancel_home"
+        app:actionLayout="@style/ActionButton"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/setting_menu_item"
+        android:icon="@drawable/ic_baseline_settings_menu_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/setting_menu_item" />
+
+    <item
+        android:id="@+id/share_menu_item"
+        android:icon="@drawable/ic_smask_share_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/smash_k_share" />
+    <item
+        android:id="@+id/call_contact_menu_item"
+        android:icon="@drawable/call_icon"
+        app:showAsAction="ifRoom"
+        android:title="@string/contact_call_item" />
+
+</menu>

@@ -33,12 +33,19 @@
         <activity android:name=".RegisterActivity"
             android:label="Register Activity">
         </activity>
+        <activity android:name=".TalkActivity"
+            android:label="TalkActivity 입니다." />
+
         <activity
-            android:name=".TalkActivity"
+            android:name=".PrivacySettings"
+            android:label="Privacy 입니다." />
+
+        <activity
+            android:name=".ContactUsSettings"
             android:label="TalkActivity 입니다." />
         <activity
             android:name=".FriendProfileActivity"
-            android:label="FriendProfileActivity 입니다." />
+            android:label="Friend" />
         <activity
             android:name=".SettingsActivity"
             android:label="Settings Activity" />

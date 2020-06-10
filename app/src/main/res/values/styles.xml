@@ -77,5 +77,19 @@
         <item name="android:layout_width">500dp</item>
         <item name="height">500dp</item>
     </style>
+    <style name="ActionButton" parent="@android:style/Widget.ActionButton">
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
+
+
+    <style name="suggest_person" parent="viewParent">
+        <item name="android:background">@drawable/add_suggested_list</item>
+        <item name="android:textColor">@color/mapboxWhite</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">45dp</item>
+        <item name="height">24dp</item>
+    </style>
 
 </resources>

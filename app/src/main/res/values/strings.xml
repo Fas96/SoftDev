@@ -50,4 +50,19 @@
     <string name="login">Login</string>
     <string name="hint_message_edt">Start a message</string>
     <string name="can_we_help">Can We Help?</string>
+    <string name="cancel_home">Cancel</string>
+    <string name="setting_menu_item">Setting</string>
+    <string name="smash_k_share">Share Smask-K</string>
+    <string name="contact_call_item">Call Friend</string>
+    <string name="user_name">User name</string>
+    <string name="add_view_person">+ ADD</string>
+    <string name="fp_name_text">friend\'s name</string>
+    <string name="home_share_num_texts">At home</string>
+    <string name="mutual_you_b">MUTUAL</string>
+    <string name="friend_number_tv">5 FRIENDS</string>
+    <string name="mutual_number_tv">0 MUTUAL FRIENDS</string>
+    <string name="title_chat">Chat</string>
+    <string name="title_location">Location</string>
+    <string name="title_Profile">Profile</string>
+    <string name="search">Search</string>
 </resources>

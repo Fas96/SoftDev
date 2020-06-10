@@ -144,8 +144,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         StringBuilder sb = new StringBuilder();
         sb.append(dayOfMonth);
         sb.append("/");
-        sb.append(month);
-        sb.append(1);
+        sb.append(0);
+        sb.append(month+1);
         sb.append("/");
         sb.append(year);
         String stringdate = sb.toString();
@@ -159,4 +159,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        finish();
+    }
 }
