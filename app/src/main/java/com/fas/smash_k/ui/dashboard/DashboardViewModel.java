@@ -9,16 +9,6 @@ import com.mapbox.mapboxsdk.Mapbox;
 public class DashboardViewModel extends ViewModel {
 
     private MutableLiveData<Mapbox> dmapView;
-   // private Mapbox dmapbox;
-
-//    public DashboardViewModel() {
-//        mText = new MutableLiveData<>();
-//        mText.setValue("This is dashboard fragment");
-//    }
-//
-//    public LiveData<String> getText() {
-//        return mText;
-//    }
 
 
     public DashboardViewModel() {

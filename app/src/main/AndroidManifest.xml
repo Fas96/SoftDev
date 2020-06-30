@@ -19,9 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-
-        </activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,26 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".RegisterActivity"
-            android:label="Register Activity">
-        </activity>
-        <activity android:name=".TalkActivity"
-            android:label="TalkActivity 입니다." />
-
-        <activity
-            android:name=".PrivacySettings"
-            android:label="Privacy 입니다." />
-
-        <activity
-            android:name=".ContactUsSettings"
-            android:label="TalkActivity 입니다." />
-        <activity
-            android:name=".FriendProfileActivity"
-            android:label="Friend" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="Settings Activity" />
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".TalkActivity"/>
+        <activity android:name=".PrivacySettings"/>
+        <activity android:name=".ContactUsSettings" />
+        <activity android:name=".FriendProfileActivity" />
+        <activity android:name=".SettingsActivity" />
     </application>
 
 </manifest>

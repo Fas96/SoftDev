@@ -118,7 +118,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
         TextView nameContact;
         TextView unreadCount;
 
-        public ViewHolder(@NonNull View itemView, onItemClickedListener onClickListener, onItemLongPressed onItemLongPressed) {
+        public ViewHolder(@NonNull View itemView, final onItemClickedListener onClickListener, final onItemLongPressed onItemLongPressed) {
             super(itemView);
             this.circleImageView = (CircleImageView) itemView.findViewById(R.id.conversation_image);
             this.nameContact = (TextView) itemView.findViewById(R.id.contact_name);
@@ -127,31 +127,37 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
             this.unreadCount = (TextView) itemView.findViewById(R.id.message_count);
 
 
-            itemView.setOnClickListener(v -> {
-                if (onClickListener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        onClickListener.onItemClicked(position);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onClickListener != null) {
+                        int position = ViewHolder.this.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onClickListener.onItemClicked(position);
+                        }
                     }
                 }
             });
 
-            itemView.setOnLongClickListener(v -> {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
 
-                if (onItemLongPressed != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        onItemLongPressed.onLongPressed(position);
+                    if (onItemLongPressed != null) {
+                        int position = ViewHolder.this.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemLongPressed.onLongPressed(position);
+                        }
                     }
+                    return false;
                 }
-                return false;
             });
 
         }
     }
 
     public void filterChat(String s) {
-        convooperationaList = new ArrayList<>();
+        convooperationaList = new ArrayList<ItemConversation>();
         if (s.isEmpty()) {
             System.out.println("fas---------------------EMP " + s);
             convooperationaList = conversations;
@@ -188,7 +194,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
         //Automatic on background thread
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<ItemConversation> filteredList = new ArrayList<>();
+            List<ItemConversation> filteredList = new ArrayList<ItemConversation>();
 
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(convooperationaList);

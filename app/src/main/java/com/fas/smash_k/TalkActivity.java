@@ -25,23 +25,16 @@ import java.util.Date;
 import java.util.Random;
 
 public class TalkActivity extends Activity {
-
     //implementing the adapters
     int conversationPosition;
-    ArrayList<ItemMessages> itemMessages = new ArrayList<>();
+    ArrayList<ItemMessages> itemMessages = new ArrayList<ItemMessages>();
     MessageAdapter messagesAdapter;
     /* access modifiers changed from: private */
     public int sentMessageCount = 1;
-
-
     //from item chat
     public static final int REQUESTCODE_CONVERSATION_POSITION = 1500;
-
-
 //    ListView m_ListView;
 //    CustomAdapter m_Adapter;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -193,18 +186,6 @@ public class TalkActivity extends Activity {
 //         }
 //         );
     }
-//
-//    private void refresh (String inputValue, int _str)
-//    {
-//
-//        if(!inputValue.equals("")){
-//        m_Adapter.add(inputValue,_str) ;
-//        m_Adapter.notifyDataSetChanged();
-//        }
-//    }
-
-
-
     public void onBackPressed() {
         System.out.println("back---fas");
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -218,15 +199,8 @@ public class TalkActivity extends Activity {
         setResult(ChatFragment.RESULT_CODE, intent);
         finish();
     }
-
-
   /*  //////////////////////////////////////////////////////
-
-
     added
-
-
-
     /////////////////////////////////////////////////////////*/
   /* access modifiers changed from: private */
   public void addMessage(ItemMessages itemMessage) {
@@ -234,7 +208,6 @@ public class TalkActivity extends Activity {
       this.itemMessages.add(itemMessage);
       this.messagesAdapter.notifyItemInserted(itemCount);
   }
-
     /* access modifiers changed from: private */
     public static String replyMessage() {
         Random generator = new Random();

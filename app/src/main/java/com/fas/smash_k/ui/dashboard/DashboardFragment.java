@@ -161,33 +161,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, P
 
     }
 
-/*    //tried
-    @SuppressLint({"WrongConstant", "MissingPermission"})
-    private void enableLocation(@NonNull Style loadedMapStyle) {
-        if (PermissionsManager.areLocationPermissionsGranted(getContext())) {
-            // Get an instance of the component
-            LocationComponent locationComponent = mapboxMap.getLocationComponent();
-            // Set the LocationComponent activation options
-            LocationComponentActivationOptions locationComponentActivationOptions =
-                    LocationComponentActivationOptions.builder(getContext(), loadedMapStyle)
-                            .useDefaultLocationEngine(false)
-                            .build();
-
-            // Activate with the LocationComponentActivationOptions object
-            locationComponent.activateLocationComponent(locationComponentActivationOptions);
-            // Enable to make component visible
-            locationComponent.setLocationComponentEnabled(true);
-            // Set the component's camera mode
-            locationComponent.setCameraMode(CameraMode.TRACKING);
-            // Set the component's render mode
-            locationComponent.setRenderMode(RenderMode.COMPASS);
-            initializeLocationEngine();
-        } else {
-            permissionsManager = new PermissionsManager(this);
-            permissionsManager.requestLocationPermissions(getActivity());
-        }
-    }*/
-
 /*  ////////////////////////////////////////////////////////////////
   getLastLocation()
     is deprecated in Mapbox this method is to help get last location
@@ -202,41 +175,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, P
     public Location getLastLocation() {
         return getOriginLocation();
     }
-
-/*    @SuppressWarnings({"StatementWithEmptyBody", "MissingPermission"})
-    private void initializeLocationEngine() {
-        locationEngine = LocationEngineProvider.getBestLocationEngine(getContext());
-
-        LocationEngineRequest request = new LocationEngineRequest.Builder(DEFAULT_INTERVAL_IN_MILLISECONDS)
-                .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
-                .setMaxWaitTime(DEFAULT_MAX_WAIT_TIME).build();
-
-        //   Location lastlocation = locationEngine.getLastLocation();
-        LocationEngineCallback<LocationEngineResult> callback = null;
-        locationEngine.requestLocationUpdates(request, callback, getMainLooper());
-        setCameraPosition(originLocation);
-        locationEngine.getLastLocation(callback);
-
-        Location lastlocation = getLastLocation();
-        if(lastlocation!=null){
-            originLocation=lastlocation;
-            setCameraPosition(lastlocation);
-        }else {
-          //  locationEngine.addLocationEngineListener(this);
-        }
-        System.out.println("Fas debug notify");
-        locationEngine.notify();
-        System.out.println("Fas here");
-
-    }*/
-
-/*    private void initializeLocationLayer() {
-        locationLayerPlugin = new LocationLayerPlugin(dMapView, mapboxMap, locationEngine);
-        locationLayerPlugin.setLocationLayerEnabled(true);
-        locationLayerPlugin.setCameraMode(CameraMode.TRACKING);
-        locationLayerPlugin.setRenderMode(com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode.NORMAL);
-    }*/
-
 
   /*  ////////////////////////////////////////////////////////////
     This setCameraPosition for the currently clicked location
@@ -304,7 +242,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, P
         };
 
     }
-
     @Deprecated
     public void onLocationChanged(Location location) {
         if (location != null) {
@@ -312,7 +249,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, P
             setCameraPosition(location);
         }
     }
-
     @SuppressLint("WrongConstant")
     @SuppressWarnings({"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
@@ -372,26 +308,14 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, P
             permissionsManager.requestLocationPermissions(getActivity());
         }
     }
-
-//    @SuppressWarnings({"MissingPermission"})
-//    @Override
-//    public void onLocationComponentClick() {
-//        System.out.println("Fas: 1");
-//        if (locationComponent.getLastKnownLocation() != null) {
-//
-//        }
-//    }
-
     @Override
     public void onCameraTrackingDismissed() {
         isInTrackingMode = true;
     }
-
     @Override
     public void onCameraTrackingChanged(int currentMode) {
 // Empty on purpose
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -426,35 +350,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, P
             }
         });
     }
-//    @SuppressWarnings( {"MissingPermission"})
-//    private void initLocationEngine() {
-//        locationEngine = new LocationEngine() {
-//            @Override
-//            public void getLastLocation(@NonNull LocationEngineCallback<com.mapbox.android.core.location.LocationEngineResult> callback) throws SecurityException {
-//
-//            }
-//
-//            @Override
-//            public void requestLocationUpdates(@NonNull LocationEngineRequest request, @NonNull LocationEngineCallback<com.mapbox.android.core.location.LocationEngineResult> callback, @Nullable Looper looper) throws SecurityException {
-//
-//            }
-//
-//            @Override
-//            public void requestLocationUpdates(@NonNull LocationEngineRequest request, PendingIntent pendingIntent) throws SecurityException {
-//
-//            }
-//
-//            @Override
-//            public void removeLocationUpdates(@NonNull LocationEngineCallback<com.mapbox.android.core.location.LocationEngineResult> callback) {
-//
-//            }
-//
-//            @Override
-//            public void removeLocationUpdates(PendingIntent pendingIntent) {
-//
-//            }
-//        };
-//    }
 @Override
 public boolean onMapClick(@NonNull LatLng point) {
     //remove markers
@@ -535,19 +430,12 @@ public boolean onMapClick(@NonNull LatLng point) {
         if (granted) { mapboxMap.getStyle((this::enableLocationComponent));
         } else { Toast.makeText(getActivity(), R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show(); }
     }
-
-
-
     //app life cycle
-
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         dMapView.onSaveInstanceState(outState);
     }
-
-
     @Override
     @SuppressWarnings("MissingPermission")
     public void onStart() {
@@ -584,30 +472,21 @@ public boolean onMapClick(@NonNull LatLng point) {
         super.onLowMemory();
         dMapView.onLowMemory();
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
         dMapView.onFinishTemporaryDetach();
     }
-
-
-
     @Override
     public void onResume() {
         super.onResume();
         dMapView.onResume();
     }
-
     @Override
     public void onPause() {
         super.onPause();
         dMapView.onPause();
     }
-
-
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();

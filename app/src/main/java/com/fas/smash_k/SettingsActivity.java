@@ -81,64 +81,80 @@ public class SettingsActivity extends Activity implements View.OnClickListener {
 
 
 
-        contactus.setOnClickListener(view -> {
-            Intent intent=new Intent(SettingsActivity.this,ContactUsSettings.class);
-            startActivity(intent);
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SettingsActivity.this, ContactUsSettings.class);
+                SettingsActivity.this.startActivity(intent);
+            }
         });
 
-        privacy.setOnClickListener(view -> {
-            Intent intent=new Intent(SettingsActivity.this,PrivacySettings.class);
-            startActivity(intent);
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SettingsActivity.this, PrivacySettings.class);
+                SettingsActivity.this.startActivity(intent);
+            }
         });
-        changeName.setOnClickListener((View.OnClickListener) v -> {
-            MyDialoge=new Dialog(SettingsActivity.this);
-            MyDialoge.setContentView(R.layout.changename);
-            MyDialoge.setTitle("Change Name");
+        changeName.setOnClickListener((View.OnClickListener) new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialoge = new Dialog(SettingsActivity.this);
+                MyDialoge.setContentView(R.layout.changename);
+                MyDialoge.setTitle("Change Name");
 
 
-            final EditText getName=(EditText)MyDialoge.findViewById(R.id.getName);
-            Button done=(Button)MyDialoge.findViewById(R.id.OK);
-            MyDialoge.show();
+                final EditText getName = (EditText) MyDialoge.findViewById(R.id.getName);
+                Button done = (Button) MyDialoge.findViewById(R.id.OK);
+                MyDialoge.show();
 
-            done.setOnClickListener(v1 -> {
-                if(getName.getText().toString().isEmpty())
-                {
-                    getName.setError("Invalid");
-                }else{
-                    getName.setError(null);
-                    changeName.setText(getName.getText().toString());
+                done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v1) {
+                        if (getName.getText().toString().isEmpty()) {
+                            getName.setError("Invalid");
+                        } else {
+                            getName.setError(null);
+                            changeName.setText(getName.getText().toString());
 
-                    MyDialoge.cancel();
-                }
+                            MyDialoge.cancel();
+                        }
 
 
-            });
+                    }
+                });
+            }
         });
 
 
-        changeUsername.setOnClickListener((View.OnClickListener) v -> {
-            MyDialoge=new Dialog(SettingsActivity.this);
-            MyDialoge.setContentView(R.layout.changeusername);
-            MyDialoge.setTitle("Change Name");
+        changeUsername.setOnClickListener((View.OnClickListener) new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialoge = new Dialog(SettingsActivity.this);
+                MyDialoge.setContentView(R.layout.changeusername);
+                MyDialoge.setTitle("Change Name");
 
 
-            final EditText getName=(EditText)MyDialoge.findViewById(R.id.getName);
-            Button done=(Button)MyDialoge.findViewById(R.id.OK);
-            MyDialoge.show();
+                final EditText getName = (EditText) MyDialoge.findViewById(R.id.getName);
+                Button done = (Button) MyDialoge.findViewById(R.id.OK);
+                MyDialoge.show();
 
-            done.setOnClickListener(v12 -> {
-                if(getName.getText().toString().isEmpty())
-                {
-                    getName.setError("Invalid");
-                }else{
-                    changeUsername.setText(getName.getText().toString());
+                done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v12) {
+                        if (getName.getText().toString().isEmpty()) {
+                            getName.setError("Invalid");
+                        } else {
+                            changeUsername.setText(getName.getText().toString());
 
-                    MyDialoge.cancel();
-                }
+                            MyDialoge.cancel();
+                        }
 
 
-            });
+                    }
+                });
 
+            }
         });
 
 
@@ -196,6 +212,13 @@ public class SettingsActivity extends Activity implements View.OnClickListener {
 
         startActivityForResult(Intent.createChooser(gallery, "Select Picture"), PICK_IMAGE);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
     }
 
     //Changedddd

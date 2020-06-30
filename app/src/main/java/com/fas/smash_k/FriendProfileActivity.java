@@ -53,14 +53,10 @@ public class FriendProfileActivity extends AppCompatActivity
     String friendSec ="";
     String mutualFriends = "";
     private  static int clickCount = 0;
-
     @Override
     protected void onResume() {
         super.onResume();
     }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -75,7 +71,7 @@ public class FriendProfileActivity extends AppCompatActivity
         mutualCount=findViewById(R.id.id_mutual_number_tv);
 
         System.out.println("Fas");
-        itemFriendsProfilesList = new ArrayList<>();
+        itemFriendsProfilesList = new ArrayList<ItemFriendsProfile>();
         for (int i = 0; i < 5; i++) {
              itemFriendsProfileItem = new ItemFriendsProfile("Abu","At Home","Mutual friend"," + ADD","https://images6.alphacoders.com/688/688916.jpg");
             itemFriendsProfilesList.add(itemFriendsProfileItem);
@@ -101,7 +97,7 @@ public class FriendProfileActivity extends AppCompatActivity
         });
         suggestFriendAdapter.setOnItemLongPressed(new SuggestFriendAdapter.onItemLongPressed() {
             @Override
-            public void onLongPressed(int position) {
+            public void onLongPressed(final int position) {
 
                 AlertDialog.Builder longClicked = new AlertDialog.Builder(FriendProfileActivity.this);
                 longClicked.setIcon(R.drawable.ic_baseline_delete_24);
@@ -138,7 +134,6 @@ public class FriendProfileActivity extends AppCompatActivity
         mutualCount.setText(mutualFriends);
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = new MenuInflater(this);
@@ -150,7 +145,6 @@ public class FriendProfileActivity extends AppCompatActivity
         }
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -204,18 +198,14 @@ public class FriendProfileActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
-
     public void insertItem(int pos){
         itemFriendsProfilesList.add( 8,new ItemFriendsProfile("Fas","At Home","Mutual friend"," + ADD","https://images6.alphacoders.com/688/688916.jpg"));
         suggestFriendAdapter.notifyItemInserted(pos);
     }
-
     public void removeItem(int pos){
         itemFriendsProfilesList.remove(pos);
         suggestFriendAdapter.notifyItemRemoved(pos);
     }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

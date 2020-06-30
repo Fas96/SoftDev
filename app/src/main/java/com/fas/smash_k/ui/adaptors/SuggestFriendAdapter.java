@@ -58,7 +58,7 @@ public class SuggestFriendAdapter extends RecyclerView.Adapter<SuggestFriendAdap
         TextView mutualOrFriend;
         TextView profState;
         Button addFriends;
-        public SugFriendViewHolder(@NonNull View itemView,onItemClickedListener onItemClickedListener,onItemLongPressed onItemLongPressed) {
+        public SugFriendViewHolder(@NonNull View itemView, final onItemClickedListener onItemClickedListener, final onItemLongPressed onItemLongPressed) {
             super(itemView);
             imageOfSuggested = itemView.findViewById(R.id.sug_friend_image);
             nameOfSuggested = itemView.findViewById(R.id.sug_or_friends_contact_name);
@@ -66,32 +66,41 @@ public class SuggestFriendAdapter extends RecyclerView.Adapter<SuggestFriendAdap
             profState = itemView.findViewById(R.id.friend_prof_state);
             addFriends = itemView.findViewById(R.id.add_friend_lnt);
 
-            itemView.setOnClickListener(v -> {
-                if(onItemClickedListener!= null){
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION){
-                        onItemClickedListener.onItemClicked(position);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickedListener != null) {
+                        int position = SugFriendViewHolder.this.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemClickedListener.onItemClicked(position);
+                        }
                     }
                 }
             });
-            addFriends.setOnClickListener(v -> {
-                if(onItemClickedListener!= null){
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION){
-                        onItemClickedListener.addButtonClicked(position);
-                        System.out.println("clicked: "+position);
+            addFriends.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickedListener != null) {
+                        int position = SugFriendViewHolder.this.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemClickedListener.addButtonClicked(position);
+                            System.out.println("clicked: " + position);
+                        }
                     }
                 }
             });
 
-            itemView.setOnLongClickListener(v -> {
-                if(onItemLongPressed!= null){
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION){
-                        onItemLongPressed.onLongPressed(position);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (onItemLongPressed != null) {
+                        int position = SugFriendViewHolder.this.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemLongPressed.onLongPressed(position);
+                        }
                     }
+                    return false;
                 }
-                return false;
             });
 
         }
@@ -105,7 +114,7 @@ public class SuggestFriendAdapter extends RecyclerView.Adapter<SuggestFriendAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SugFriendViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final SugFriendViewHolder holder, int position) {
         pos = holder.getAdapterPosition();
         // position= holder.getPosition();
         ItemFriendsProfile currentConversation = (ItemFriendsProfile) itemFriendsProfilesList.get(pos);
@@ -117,9 +126,12 @@ public class SuggestFriendAdapter extends RecyclerView.Adapter<SuggestFriendAdap
         holder.profState.setVisibility(View.GONE);
         holder.addFriends.setText(currentConversation.getAddFriends());
 
-        holder.addFriends.setOnClickListener(v -> {
-            holder.profState.setVisibility(View.VISIBLE);
-            holder.addFriends.setVisibility(View.GONE);
+        holder.addFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.profState.setVisibility(View.VISIBLE);
+                holder.addFriends.setVisibility(View.GONE);
+            }
         });
 
 

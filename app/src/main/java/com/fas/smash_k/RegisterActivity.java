@@ -3,6 +3,7 @@ package com.fas.smash_k;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,9 +20,20 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.fas.smash_k.ui.RequestHandler;
+import com.fas.smash_k.ui.models.app.Constants;
+import com.fas.smash_k.ui.models.app.UserLocal;
 import com.fas.smash_k.ui.models.chatItems.User;
+import com.fas.smash_k.ui.sharedPrefManager.SharedPrefManager;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -30,24 +42,23 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
     public static final int REQUEST_CODE_BIRTHDATE = 2;
     public static final int REQUST_CODE_EXTERNAL_PERMISSION = 1;
     public static final int REQUST_CODE_PICK_IMAGE = 3;
-    TextView birthDayView;
-    EditText emailView;
-    EditText lastNameView;
-    EditText nameView;
-    EditText passwordView;
-    EditText phoneView;
-    CircleImageView profileImageView;
-    EditText reEnterView;
-    Button registerButton;
-    User user;
-
-    CardView image_profilem;
+    TextView birthDayView; EditText emailView; EditText lastNameView; EditText nameView;
+    EditText passwordView; EditText phoneView;CircleImageView profileImageView;EditText reEnterView;
+    Button registerButton;User user;CardView image_profilem;
+    ProgressDialog progressDialog;
 
     /* access modifiers changed from: protected */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        if(SharedPrefManager.getInstance(this).isLoggedIn()){
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+            return;
+        }
+
 
         profileImageView = (CircleImageView) findViewById(R.id.image_profile);
         //image_profilem=findViewById(R.id.image_profile_cv);
@@ -59,6 +70,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         this.passwordView = (EditText) findViewById(R.id.password);
         this.reEnterView = (EditText) findViewById(R.id.reenter_password);
         this.registerButton = (Button) findViewById(R.id.register_btn);
+        //progress dailog
+        progressDialog= new ProgressDialog(this);
+        progressDialog.setMessage("Registering....");
+
         //set listener
         this.profileImageView.setOnClickListener(this);
         this.birthDayView.setOnClickListener(this);
@@ -82,7 +97,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, calendar.get(1), calendar.get(2), calendar.get(5));
             datePickerDialog.show();
         } else if (id != R.id.image_profile) {
-            Toast.makeText(getApplicationContext(),"profileImageView",Toast.LENGTH_SHORT).show();
             if (id == R.id.register_btn) {
                 if (checkPassword(this.passwordView.getText().toString(), this.reEnterView.getText().toString())) {
                     String name = this.nameView.getText().toString();
@@ -90,15 +104,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
                     String emial = this.emailView.getText().toString();
                     String phone = this.phoneView.getText().toString();
 
-//                    PrintStream printStream = System.out;
-//                    StringBuilder sb = new StringBuilder();
-//                    sb.append("Josiah ");
-//                    sb.append(SharedPref.isUserLoggedIn());
-//                    printStream.println(sb.toString());
-                    Toast.makeText(this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-                    return;
+                    //register user
+                    registerUser();
+
+
                 }
                 Toast.makeText(this, "Confirmation faild", Toast.LENGTH_LONG).show();
             }
@@ -158,6 +167,63 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         }
         return true;
     }
+
+    private void registerUser() {
+        final String email = emailView.getText().toString().trim();
+        final String username = nameView.getText().toString().trim();
+        final String password = passwordView.getText().toString().trim();
+
+        progressDialog.setMessage("Registering user...");
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.URL_REGISTER, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        Gson gson = new Gson();
+                        UserLocal b = gson.fromJson(response.toString().substring(1,response.toString().length()),UserLocal.class);
+                        if(b.getError().toString().equals("false")){
+
+                            SharedPrefManager.getInstance(getApplicationContext())
+                                    .userLogin(
+                                            b.getId(),
+                                            b.getUsername(),
+                                            b.getEmail()
+                                    );
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish(); }else{
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    b.getUsername()+"fas",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // progressDialog.hide();
+                        Toast.makeText(getApplicationContext(), error.getMessage()+"register error", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", username);
+                params.put("email", email);
+                params.put("password", password);
+                return params;
+            }
+        };
+
+
+        RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+
+
+    }
+
 
     @Override
     public void onBackPressed() {

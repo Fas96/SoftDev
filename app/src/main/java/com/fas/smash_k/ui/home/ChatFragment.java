@@ -37,54 +37,20 @@ import com.fas.smash_k.ui.models.chatItems.ItemFriendsProfile;
 import java.util.ArrayList;
 
 public class ChatFragment extends Fragment  {
-
     public static final int REQUEST_CODE = 11;
     public static final int RESULT_CODE = 12;
     public static final String EXTRA_KEY_TEST = "testKey";
-
     //Home Conversation Adapter
       ArrayList<ItemConversation> conversationList;
       ConversationsAdapter conversationsAdapter;
       RecyclerView recyclerView;
-
     int conversationPosition;
-
     ChatFragment conversationsFragment;
     FragmentManager fragmentManager;
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        //setHasOptionsMenu(true);
 
-
-
-
-        /*The top Toolbar that contains the search bar*/
-//        Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
-//        SearchView searchView= root.findViewById(R.id.search_view);
-//        searchView.setLayoutParams(new Toolbar.LayoutParams(Gravity.RIGHT));
-////
-//
-//        /*overriding basic functi ons that comes with a search view*/
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                conversationsAdapter.filterChat(s);
-//                return true;
-//            }
-//        });
-
-
-
-        ///
         fragmentManager = getFragmentManager();
         //ScrollView scroll_view = (ScrollView) findViewById(R.id.scroll_view_id);
         //recycler view
@@ -156,12 +122,6 @@ public class ChatFragment extends Fragment  {
     private String getCharForNumber(int i) {
         return i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
     }
-//    //top button to convo
-//    @Override
-//    public void onClick(View v) {
-//        Intent send_intent = new Intent(getActivity(), TalkActivity.class);
-//        startActivityForResult(send_intent, HomeFragment.REQUEST_CODE);
-//    }
 
 
     @Override
