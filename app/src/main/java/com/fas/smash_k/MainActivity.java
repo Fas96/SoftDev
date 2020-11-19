@@ -1,30 +1,17 @@
 package com.fas.smash_k;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
-import com.fas.smash_k.ui.notifications.NotificationsFragment;
 import com.fas.smash_k.ui.sharedPrefManager.SharedPrefManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import java.io.IOException;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menuSettings:
                 finish();
                 startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            case R.id.imagedetection:
+                finish();
+                startActivity(new Intent(this, FaceRecognition.class));
                 break;
         }
         return true;

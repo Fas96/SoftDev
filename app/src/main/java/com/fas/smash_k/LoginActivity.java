@@ -94,10 +94,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 Gson gson = new Gson();
 
 
-                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                 UserLocal b = gson.fromJson(response.toString(), UserLocal.class);
                 //UserLocal b = new UserLocal(false,1,"trek","trek");
-                if (b.getError().toString().equals("false")) {
+                if (b.getError().toString().equals("true")) {
 
                     SharedPrefManager.getInstance(getApplicationContext())
                             .userLogin(
@@ -108,11 +108,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
                 } else {
-                    Toast.makeText(
+                   /* Toast.makeText(
                             getApplicationContext(),
                             b.getUsername() + "fas",
                             Toast.LENGTH_LONG
-                    ).show();
+                    ).show();*/
                 }
             }
         }, new Response.ErrorListener() {
@@ -147,7 +147,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         long id =v.getId();
         if(id==R.id.cirLoginButton){
-          userLogin();
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
         }else if(id==R.id.dont_have_register_tv){
             //send user to register
             startActivity(new Intent(this, RegisterActivity.class));

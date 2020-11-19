@@ -24,7 +24,7 @@
             <EditText
                 android:id="@+id/editTextEmail"
                 style="@style/modifiedEditText"
-                android:inputType="textEmailAddress"
+                android:inputType="textPersonName"
                 android:maxLines="1"
                 android:hint="@string/login_email_hint"
                 android:autofillHints="" />

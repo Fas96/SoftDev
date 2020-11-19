@@ -105,8 +105,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
                     String phone = this.phoneView.getText().toString();
 
                     //register user
-                    registerUser();
-
+                    //registerUser();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
 
                 }
                 Toast.makeText(this, "Confirmation faild", Toast.LENGTH_LONG).show();

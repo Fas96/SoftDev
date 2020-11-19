@@ -3,46 +3,76 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 29
 
+    aaptOptions {
+        noCompress "tflite"
+    }
+
+
+
     defaultConfig {
         applicationId "com.fas.smash_k"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
+
     }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion '24.0.3'
+    buildToolsVersion '29.0.3'
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-ml-model-interpreter:22.0.4'
+    implementation 'com.google.mlkit:face-detection:16.0.2'
+    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+    implementation 'com.google.mlkit:image-labeling-automl:16.2.1'
+    implementation 'com.google.mlkit:linkfirebase:16.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision:24.1.0'
+    implementation 'com.google.firebase:firebase-ml-vision-face-model:20.0.2'
+    // https://mvnrepository.com/artifact/com.walterjwhite.java.dependencies/google-tensorflow
+    implementation group: 'com.walterjwhite.java.dependencies', name: 'google-tensorflow', version: '0.0.17', ext: 'pom'
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.3.0'
-    implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+    implementation 'androidx.navigation:navigation-ui:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.android.support:support-annotations:28.0.0'
-    implementation 'eu.codlab:greendao:3.0.1' 
+    implementation 'eu.codlab:greendao:3.0.1'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+
+    // Declare the dependency for the Firebase ML Custom Models library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-ml-model-interpreter'
+    implementation 'com.android.support:multidex:1.0.3'
+    // Also declare the dependency for the TensorFlow Lite library and specify its version
+    implementation 'org.tensorflow:tensorflow-lite:2.3.0'
 
     //mapbox dependencies
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
@@ -52,7 +82,8 @@ dependencies {
     implementation('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.43.0-alpha.1') {
         transitive = true
     }
-
+    implementation 'org.tensorflow:tensorflow-lite-task-vision:0.0.0-nightly'
+    implementation 'org.tensorflow:tensorflow-lite-task-text:0.0.0-nightly'
     //profile
     implementation 'com.android.support:appcompat-v7:29.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

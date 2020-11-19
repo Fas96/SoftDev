@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath 'com.android.tools.build:gradle:4.0.2'
         classpath 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
         classpath 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
 
@@ -16,7 +16,12 @@ buildscript {
 }
 
 allprojects {
+
     repositories {
+
+            maven {
+                url 'https://google.bintray.com/tensorflow'
+            }
         google()
         jcenter()
         maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local/' }
@@ -28,3 +33,4 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 //hello
+
